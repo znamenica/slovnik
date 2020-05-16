@@ -509,7 +509,7 @@ module.exports = function(webpackEnv) {
     },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
-      isEnvProduction && new HtmlWebpackPlugin(
+      isEnvDevelopment && new HtmlWebpackPlugin(
         Object.assign(
           {},
           {
