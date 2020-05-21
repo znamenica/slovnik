@@ -61,7 +61,7 @@
     "sass-loader": "8.0.2",
     "semver": "6.3.0",
     "style-loader": "0.23.1",
-    "terser-webpack-plugin": "2.3.5",
+    "terser-webpack-plugin": "2.3.6",
     "ts-pnp": "1.1.6",
     "typeface-roboto": "0.0.75",
     "typescript": "^3.7.5",
