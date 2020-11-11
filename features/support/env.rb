@@ -10,6 +10,11 @@ Shoulda::Matchers.configure do |config|
 end
 
 Before do
+   # for route matchers
+   @routes ||= ObjectSpace.each_object(ActionDispatch::Routing::RouteSet).to_a.select {|r| r.routes.count > 0 }.first
+   # for minitest
+   self.assertions ||= 0
+
    DatabaseRewinder.clean_all
 end
 
