@@ -3,5 +3,6 @@ Given("default User model") do
 end
 
 Then("the model is valid") do
-   expect(User.first).to validate_presence_of(:names)
+   expect(User.first).to be_valid
+   #expect(User.first).to validate_presence_of(:names)
 end
