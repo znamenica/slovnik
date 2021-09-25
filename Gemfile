@@ -42,6 +42,9 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'capistrano-rails'
+  gem 'cucumber-rails', require: false
+  gem 'shoulda-matchers-cucumber', github: "majioa/shoulda-matchers-cucumber"
+  gem 'database_rewinder'
 end
 
 group :test do
