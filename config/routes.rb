@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
-   mount Tiun::Engine, at: '/api'
+   devise_for :users
+   # mount Tiun::Engine, at: '/api'
    #Tiun::Engine.routes
+   root to: "application#home"
 end

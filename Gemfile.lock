@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/majioa/tiun.git
-  revision: f36bbc7d4d79b5c197b3bc1216a2ea01febaf7d3
-  specs:
-    tiun (0.1.0)
-      active_model_serializers (~> 0.10, >= 0.10.6)
-      activesupport (>= 4.1.0)
-      railties (>= 4.1.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -48,11 +39,6 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_model_serializers (0.10.13)
-      actionpack (>= 4.1, < 7.1)
-      activemodel (>= 4.1, < 7.1)
-      case_transform (>= 0.2)
-      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (6.1.6)
       activesupport (= 6.1.6)
       globalid (>= 0.3.6)
@@ -80,6 +66,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
+    bcrypt (3.1.18)
     bindex (0.8.1)
     bootsnap (1.12.0)
       msgpack (~> 1.2)
@@ -104,8 +91,6 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
-    case_transform (0.2)
-      activesupport
     childprocess (4.1.0)
     chromedriver-helper (2.1.1)
       archive-zip (~> 0.10)
@@ -153,15 +138,22 @@ GEM
       cucumber-cucumber-expressions (~> 10.3, >= 10.3.0)
       cucumber-messages (~> 13.0, >= 13.0.1)
     database_rewinder (0.9.8)
+    devise (4.8.1)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0)
+      responders
+      warden (~> 1.2.3)
     diff-lcs (1.5.0)
+    digest (3.1.0)
     erubi (1.10.0)
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    hashie (5.0.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
-    jsonapi-renderer (0.2.2)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -181,13 +173,25 @@ GEM
     minitest (5.15.0)
     msgpack (1.5.2)
     multi_test (0.1.2)
+    net-protocol (0.1.3)
+      timeout
     net-scp (3.0.0)
       net-ssh (>= 2.6.5, < 7.0.0)
+    net-smtp (0.3.1)
+      digest
+      net-protocol
+      timeout
     net-ssh (6.1.0)
     nio4r (2.5.8)
     nokogiri (1.13.6-x86_64-linux)
       racc (~> 1.4)
     oj (3.13.14)
+    omniauth (2.1.0)
+      hashie (>= 3.4.6)
+      rack (>= 2.2.3)
+      rack-protection
+    orm_adapter (0.5.0)
+    pg (1.4.1)
     protobuf-cucumber (3.10.8)
       activesupport (>= 3.2)
       middleware
@@ -204,6 +208,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3.1)
+    rack-protection (2.2.0)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.1.6)
@@ -237,6 +243,9 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     regexp_parser (2.5.0)
+    responders (3.0.1)
+      actionpack (>= 5.0)
+      railties (>= 5.0)
     rexml (3.2.5)
     rspec-expectations (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -272,10 +281,13 @@ GEM
       ffi (~> 1.1)
     thor (1.2.1)
     thread_safe (0.3.6)
+    timeout (0.3.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2022.1)
       tzinfo (>= 1.0.0)
+    warden (1.2.9)
+      rack (>= 2.0.9)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -300,8 +312,12 @@ DEPENDENCIES
   chromedriver-helper
   cucumber-rails
   database_rewinder
+  devise
   listen (>= 3.0.5, < 3.2)
+  net-smtp
   oj
+  omniauth
+  pg
   pry-byebug
   puma (~> 5.6)
   rails (~> 6.1, >= 6.1.4.1)
@@ -309,7 +325,6 @@ DEPENDENCIES
   shoulda-matchers-cucumber (>= 1.0.1)
   spring
   spring-watcher-listen (~> 2.0.0)
-  tiun!
   tzinfo-data
   web-console (>= 3.3.0)
 

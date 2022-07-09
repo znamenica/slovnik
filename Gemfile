@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1', '>= 6.1.4.1'
 # Use Puma as the app server
@@ -27,7 +28,14 @@ gem 'tzinfo-data'
 
 # API
 # gem 'tiun', path: '../tiun'
-gem 'tiun', github: 'majioa/tiun'
+# gem 'tiun', github: 'majioa/tiun'
+
+# auth
+gem 'devise'
+gem 'omniauth'
+
+# mailing
+gem 'net-smtp'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
