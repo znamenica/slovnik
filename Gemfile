@@ -10,6 +10,9 @@ gem 'rails', '~> 6.1', '>= 6.1.6.1'
 gem 'puma', '~> 5.6'
 # Use SCSS for stylesheets
 
+## Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 2.7.2'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 #gem 'jbuilder', '~> 2.5'
 gem 'oj'
@@ -38,31 +41,38 @@ gem 'omniauth'
 gem 'net-smtp'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'pry-byebug'
-  # gem 'rspec'
-  gem 'shoulda-matchers-cucumber', '>= 1.0.1'
-  gem 'cucumber-rails', require: false
-  gem 'database_rewinder'
-  gem 'factory_bot'
-  gem 'faker'
-  gem 'ffaker'
+   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+   gem 'pry-byebug'
+   # gem 'rspec'
+   gem 'shoulda-matchers-cucumber', '>= 1.0.1'
+   gem 'cucumber-rails', require: false
+   gem 'database_rewinder'
+   gem 'factory_bot'
+   gem 'faker'
+   gem 'ffaker'
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'capistrano-rails'
+   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
+   gem 'web-console', '>= 3.3.0'
+   gem 'listen', '>= 3.0.5', '< 3.2'
+   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+   gem 'spring'
+   gem 'spring-watcher-listen', '~> 2.0.0'
+   gem 'capistrano', '~> 3.17'
+   gem 'capistrano-rails', '~> 1.6'
+   gem 'capistrano3-nginx'
+   gem 'capistrano-bundler'
+   gem 'capistrano-rvm'
+   gem 'capistrano-systemd-multiservice', require: false, git: 'https://github.com/majioa/capistrano-systemd-multiservice.git'
+   gem 'ed25519', '~> 1.2'
+   gem 'bcrypt_pbkdf', '~> 1.0'
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
+   # Adds support for Capybara system testing and selenium driver
+   gem 'capybara', '>= 2.15'
+   gem 'selenium-webdriver'
+   # Easy installation and use of chromedriver to run system tests with Chrome
+   gem 'chromedriver-helper'
 end
