@@ -40,6 +40,13 @@ gem 'net-smtp'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
+  # gem 'rspec'
+  gem 'shoulda-matchers-cucumber', '>= 1.0.1'
+  gem 'cucumber-rails', require: false
+  gem 'database_rewinder'
+  gem 'factory_bot'
+  gem 'faker'
+  gem 'ffaker'
 end
 
 group :development do
@@ -50,9 +57,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'capistrano-rails'
-  gem 'cucumber-rails', require: false
-  gem 'shoulda-matchers-cucumber', '>= 1.0.1'
-  gem 'database_rewinder'
 end
 
 group :test do

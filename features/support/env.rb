@@ -1,6 +1,11 @@
-require 'tiun'
+# require 'tiun'
 require 'cucumber/rails'
 require 'shoulda-matchers/cucumber'
+
+FactoryBot.definition_file_paths = %w(features/factories)
+FactoryBot.lint
+World(FactoryBot::Syntax::Methods)
+World(Rack::Test::Methods)
 
 Shoulda::Matchers.configure do |config|
    config.integrate do |with|
@@ -9,6 +14,22 @@ Shoulda::Matchers.configure do |config|
    end
 end
 
+RSpec::Matchers.define :match_response_json_yaml do |yaml|
+   match do |response|
+      hash = JSON.load(response.body)
+      to_hash = YAML.load(yaml)
+      deep_match(hash, to_hash)
+   end
+end
+
+#RSpec::Matchers.define :match_response_schema do |schema|
+#  match do |response|
+#    schema_directory = "#{Dir.pwd}/features/fixtures/schemas"
+#    schema_path = "#{schema_directory}/#{schema}.json"
+#    JSON::Validator.validate!(schema_path, body, strict: false)
+#  end
+#end
+#
 Before do
    # for route matchers
    @routes ||= ObjectSpace.each_object(ActionDispatch::Routing::RouteSet).to_a.select {|r| r.routes.count > 0 }.first
@@ -24,7 +45,7 @@ end
 
 at_exit do
    DatabaseRewinder.clean
-   Tiun.rollback
+   # Tiun.rollback
 end
 
 #DatabaseCleaner.clean_with(:deletion) # clean once, now
