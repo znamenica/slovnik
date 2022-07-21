@@ -1,4 +1,6 @@
 class AppSessionsController < Devise::SessionsController
+   skip_before_action :authenticate_user!, only: [:create]
+
    def new
       respond_to do |format|
          format.html { super }
