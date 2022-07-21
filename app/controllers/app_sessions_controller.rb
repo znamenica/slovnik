@@ -1,4 +1,6 @@
 class AppSessionsController < Devise::SessionsController
+   include ApplicationCore
+
    before_action :authenticate_user!, except: [:create]
    protect_from_forgery with: :null_session, if: :json_request?
    protect_from_forgery with: :exception, unless: :json_request?
@@ -53,23 +55,9 @@ class AppSessionsController < Devise::SessionsController
       render json: {email: user.email}, status: :ok
    end
 
-   def auth_token
-      params[:auth_token] || request.headers["X-AUTH-TOKEN"]
-   end
-
    def verify_signed_out_user
       json_request? || super
    end
-
-#   def verified_request?
-#        !protect_against_forgery? || request.forgery_whitelisted? ||
-#          form_authenticity_token == params[request_forgery_protection_token]
-      #   !protect_against_forgery? || request.get? || request.head? ||
-#    valid_authenticity_token?(session, form_authenticity_param) ||
-#    valid_authenticity_token?(session, request.headers['X-CSRF-Token'])
-#      binding.pry
-#      json_request? || super
-#   end
 
    def generate_access_token
       _, token = Devise.token_generator.generate(User, :encrypted_password)
@@ -83,16 +71,5 @@ class AppSessionsController < Devise::SessionsController
       Token.new(code: refresh_token, kind: :refresh, user: @user).save!
 
       refresh_token
-   end
-
-   def json_request?
-      request.format.json? || request.content_type == "application/json"
-   end
-
-   def render_exception e
-      respond_to do |format|
-         format.html { super }
-         format.json { render json: {error: {message: e.message}}, status: 423 }
-      end
    end
 end

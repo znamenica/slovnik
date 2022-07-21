@@ -37,8 +37,9 @@ gem 'tzinfo-data'
 gem 'devise'
 gem 'omniauth'
 
-# mailing
+# mailing / required
 gem 'net-smtp'
+gem 'net-pop'
 
 group :development, :test do
    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -61,7 +62,7 @@ group :development do
    gem 'spring-watcher-listen', '~> 2.0.0'
    gem 'capistrano', '~> 3.17'
    gem 'capistrano-rails', '~> 1.6'
-   gem 'capistrano3-nginx'
+   gem 'capistrano3-nginx', git: 'https://github.com/treenewbee/capistrano3-nginx.git'
    gem 'capistrano-bundler'
    gem 'capistrano-rvm'
    gem 'capistrano-systemd-multiservice', require: false, git: 'https://github.com/majioa/capistrano-systemd-multiservice.git'

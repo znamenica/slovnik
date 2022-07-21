@@ -1,37 +1,62 @@
-# Puma can serve each request in a thread from an internal thread pool.
-# The `threads` method setting takes two numbers: a minimum and maximum.
-# Any libraries that use thread pools should be configured to match
-# the maximum value specified for Puma. Default is set to 5 threads for minimum
-# and maximum; this matches the default thread size of Active Record.
-#
-threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
+require "rails"
+require "active_record"
+
+rails_env = Rails.env.to_s
+
+environment ENV.fetch("RAILS_ENV") { "production" }
+
+$stdout.puts "{puma.rb}: rails_env: #{rails_env}, ENV[RAILS_ENV]: #{ENV['RAILS_ENV']}"
+
+environment rails_env
+
+def root
+  File.expand_path('../..', __FILE__)
+end
+
+if Rails.env.production?
+   app_dir = File.expand_path("../..", __FILE__)
+   shared_dir = File.expand_path("#{app_dir}/../../shared")
+   threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
+
+   workers Integer(ENV['WEB_CONCURRENCY'] || 2)
+   bind "unix:#{shared_dir}/tmp/sockets/puma.sock"
+   stdout_redirect "#{shared_dir}/log/stdout.log", "#{shared_dir}/log/stderr.log", true
+   pidfile ENV.fetch("PIDFILE") { "#{shared_dir}/tmp/pids/puma.pid" }
+   state_path "#{shared_dir}/tmp/pids/puma.state"
+   activate_control_app
+   plugin :tmp_restart
+elsif Rails.env.development?
+   shared_dir = '.'
+   threads_count = Integer(ENV['MAX_THREADS'] || 2)
+   port = ENV.fetch("PORT") { 33333 }
+   host = ENV['HOST'] || 'localhost'
+   key = ENV['SSL_KEY_PATH'] || File.join(ENV['HOME'], '.ssh', 'dneslov.dev.server.key')
+   cert = ENV['SSL_CERT_PATH'] || File.join(root, 'config/server.crt')
+
+   worker_timeout 3600
+   workers Integer(ENV['WEB_CONCURRENCY'] || 2)
+   if File.exist?(cert)
+      ssl_bind host, port, {
+         key: key,
+         cert: cert,
+         verify_mode: 'none'
+      }
+   else
+      port(port)
+   end
+
+   rackup DefaultRackup
+end
+
 threads threads_count, threads_count
 
-# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-#
-port        ENV.fetch("PORT") { 3000 }
+preload_app!
 
-# Specifies the `environment` that Puma will run in.
-#
-environment ENV.fetch("RAILS_ENV") { "development" }
-
-# Specifies the `pidfile` that Puma will use.
-pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
-
-# Specifies the number of `workers` to boot in clustered mode.
-# Workers are forked webserver processes. If using threads and workers together
-# the concurrency of the application would be max `threads` * `workers`.
-# Workers do not work on JRuby or Windows (both of which do not support
-# processes).
-#
-# workers ENV.fetch("WEB_CONCURRENCY") { 2 }
-
-# Use the `preload_app!` method when specifying a `workers` number.
-# This directive tells Puma to first boot the application and load code
-# before forking the application. This takes advantage of Copy On Write
-# process behavior so workers use less memory.
-#
-# preload_app!
-
-# Allow puma to be restarted by `rails restart` command.
-plugin :tmp_restart
+on_worker_boot do
+   # Worker specific setup for Rails 4.1+
+   # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
+   ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
+   if Rails.env.production?
+      ActiveRecord::Base.establish_connection(YAML.load_file("#{shared_dir}/config/database.yml")[rails_env])
+   end
+end
