@@ -1,13 +1,4 @@
 class AppSessionsController < Devise::SessionsController
-   include ApplicationCore
-
-   before_action :authenticate_user!, except: [:create]
-   protect_from_forgery with: :null_session, if: :json_request?
-   protect_from_forgery with: :exception, unless: :json_request?
-   respond_to :json
-
-   rescue_from Exception, with: :render_exception
-
    def new
       respond_to do |format|
          format.html { super }
