@@ -198,6 +198,10 @@ GEM
     minitest (5.16.2)
     msgpack (1.5.2)
     multi_test (0.1.2)
+    net-imap (0.2.3)
+      digest
+      net-protocol
+      strscan
     net-pop (0.1.1)
       digest
       net-protocol
@@ -306,6 +310,7 @@ GEM
     sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    strscan (3.0.1)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     thor (1.2.1)
@@ -355,6 +360,7 @@ DEPENDENCIES
   faker
   ffaker
   listen (>= 3.0.5, < 3.2)
+  net-imap
   net-pop
   net-smtp
   oj
