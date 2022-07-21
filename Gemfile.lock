@@ -324,6 +324,9 @@ GEM
     thor (1.2.1)
     thread_safe (0.3.6)
     timeout (0.3.0)
+    turbolinks (5.2.1)
+      turbolinks-source (~> 5.2)
+    turbolinks-source (5.2.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2022.1)
@@ -383,6 +386,7 @@ DEPENDENCIES
   shoulda-matchers-cucumber (>= 1.0.1)
   spring
   spring-watcher-listen (~> 2.0.0)
+  turbolinks
   tzinfo-data
   uglifier (>= 2.7.2)
   web-console (>= 3.3.0)

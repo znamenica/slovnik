@@ -13,6 +13,9 @@ gem 'puma', '~> 5.6'
 ## Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 2.7.2'
 
+# js
+gem 'turbolinks'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 #gem 'jbuilder', '~> 2.5'
 gem 'oj'
