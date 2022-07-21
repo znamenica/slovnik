@@ -29,7 +29,8 @@ module ApplicationCore
    end
 
    def render_exception e
-      binding.pry
+      Rails.logger.error("[#{e}]: #{e.message}\n\t#{e.backtrace.join("\n\t")}")
+
       respond_to do |format|
          format.html { render "home", status: :internal_server_error }
          format.json { render json: {error: {message: e.message}}, status: :internal_server_error }
