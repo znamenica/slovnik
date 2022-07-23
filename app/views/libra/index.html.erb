@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Libra</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Text</th>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @libra.each do |librum| %>
+      <tr>
+        <td><%= librum.text %></td>
+        <td><%= librum.title %></td>
+        <td><%= link_to 'Show', librum %></td>
+        <td><%= link_to 'Edit', edit_librum_path(librum) %></td>
+        <td><%= link_to 'Destroy', librum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Librum', new_librum_path %>

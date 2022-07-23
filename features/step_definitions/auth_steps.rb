@@ -2,6 +2,12 @@
    @current_user = FactoryBot.create(:user, nickname: nickname)
 end
 
+Допустим('є користник сѫ прѣзвищем {string} и токеном') do |nickname|
+   @current_user = FactoryBot.create(:user, nickname: nickname)
+   @token = FactoryBot.create(:token, user: @current_user)
+   header 'X-Auth-Token', @token.code
+end
+
 Допустим('є токен для користника {string}') do |token|
    @token = FactoryBot.create(:token, user: current_user)
    header 'X-Auth-Token', @token.code

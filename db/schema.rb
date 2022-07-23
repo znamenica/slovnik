@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_19_111120) do
+ActiveRecord::Schema.define(version: 2022_07_22_085431) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "btree_gin"
   enable_extension "plpgsql"
+
+  create_table "libra", force: :cascade do |t|
+    t.text "text", null: false, comment: "Буко"
+    t.string "title", null: false, comment: "Надпис бука"
+    t.string "type", null: false, comment: "Взор бука"
+    t.bigint "author_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_libra_on_author_id"
+    t.index ["text"], name: "index_libra_on_text"
+    t.index ["title"], name: "index_libra_on_title", using: :gin
+    t.index ["type"], name: "index_libra_on_type"
+  end
 
   create_table "tokens", force: :cascade do |t|
     t.string "code", null: false
@@ -60,5 +74,6 @@ ActiveRecord::Schema.define(version: 2022_07_19_111120) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "libra", "users", column: "author_id"
   add_foreign_key "tokens", "users"
 end

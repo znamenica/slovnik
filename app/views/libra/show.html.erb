@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @librum.text %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @librum.title %>
+</p>
+
+<%= link_to 'Edit', edit_librum_path(@librum) %> |
+<%= link_to 'Back', libra_path %>

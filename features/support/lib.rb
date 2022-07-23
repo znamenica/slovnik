@@ -91,6 +91,10 @@ module Support
    def drop_current_user
       @current_user = FactoryBot.build(:user)
    end
+
+   def current_librum
+      @current_librum ||= FactoryBot.create(:librum)
+   end
 end
 
 World(Spec)

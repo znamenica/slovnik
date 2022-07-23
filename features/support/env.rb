@@ -22,14 +22,15 @@ RSpec::Matchers.define :match_response_json_yaml do |yaml|
    end
 end
 
-#RSpec::Matchers.define :match_response_schema do |schema|
-#  match do |response|
-#    schema_directory = "#{Dir.pwd}/features/fixtures/schemas"
-#    schema_path = "#{schema_directory}/#{schema}.json"
-#    JSON::Validator.validate!(schema_path, body, strict: false)
-#  end
-#end
-#
+RSpec::Matchers.define :have_content_in_text_and_inputs do |text|
+   match do |page|
+      inputs = page.find_all("input", visible: false)
+
+      inputs.any? { |input| /#{text}/ =~ input.value } ||
+         page.text.split("\n").any? { |t| /#{text}/ =~ t }
+   end
+end
+
 Before do
    # for route matchers
    @routes ||= ObjectSpace.each_object(ActionDispatch::Routing::RouteSet).to_a.select {|r| r.routes.count > 0 }.first

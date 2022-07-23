@@ -4,5 +4,6 @@ Rails.application.routes.draw do
    #Tiun::Engine.routes
    root to: "application#home"
 
+   resources :libra, path: '/library'
    resources :users, only: %i(index show)
 end
