@@ -1,4 +1,4 @@
-if Rails.env.test?
+if Rails.env.test? || Rails.env.development?
    require 'cucumber/rake/task'
 
    Cucumber::Rake::Task.new(:cucumber) do |t|
