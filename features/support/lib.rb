@@ -92,6 +92,10 @@ module Support
       @current_user = FactoryBot.build(:user)
    end
 
+   def current_novelty
+      @current_novelty ||= FactoryBot.create(:novelty)
+   end
+
    def current_librum
       @current_librum ||= FactoryBot.create(:librum)
    end

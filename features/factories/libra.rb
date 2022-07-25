@@ -5,4 +5,8 @@ FactoryBot.define do
       text { Faker::Lorem.paragraph }
       author { association :user }
    end
+
+   factory :novelty, parent: :librum do
+      type { "Novelty" }
+   end
 end

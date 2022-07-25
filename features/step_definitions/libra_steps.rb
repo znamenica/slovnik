@@ -1,3 +1,7 @@
+Допустим('є буко') do
+   FactoryBot.create(:librum)
+end
+
 Допустим('є буко сѫ даными:') do |table|
    attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
    @current_librum = FactoryBot.create(:librum, attrs)
@@ -13,11 +17,11 @@ end
    end
 end
 
-Если('правим свою назву яко {string}') do |text|
+Если('правим свою назву бука яко {string}') do |text|
    fill_in "librum[title]", with: text
 end
 
-Если('правим своє дане яко {string}') do |text|
+Если('правим своє дане бука яко {string}') do |text|
    fill_in "librum[text]", with: text
 end
 
@@ -47,6 +51,6 @@ end
    delete(path)
 end
 
-Если('запытам добыванје послѣднеи изнаходи') do
+Если('запытам добыванје послѣднеи изнаходи буке') do
    @response = get("/library/#{Librum.last.id}.json")
 end
