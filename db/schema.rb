@@ -21,11 +21,13 @@ ActiveRecord::Schema.define(version: 2022_07_22_085431) do
     t.string "title", null: false, comment: "Надпис бука"
     t.string "type", null: false, comment: "Взор бука"
     t.bigint "author_id"
+    t.tsvector "tsv"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["author_id"], name: "index_libra_on_author_id"
     t.index ["text"], name: "index_libra_on_text"
-    t.index ["title"], name: "index_libra_on_title", using: :gin
+    t.index ["title"], name: "index_libra_on_title"
+    t.index ["tsv"], name: "index_libra_on_tsv", using: :gin
     t.index ["type"], name: "index_libra_on_type"
   end
 
