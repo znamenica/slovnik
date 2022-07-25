@@ -5,14 +5,14 @@ class NoveltiesController < ApplicationController
 
    # GET /novelties
    def index
-      @novelties = Novelty.all
+      @novelties = Novelty.all.page(params[:p])
 
       respond_to do |format|
          format.json do
             render plain: {
                list: @novelties.as_json,
                page: @page,
-               total: @novelties.size
+               total: @novelties.total_count
             }.to_json
          end
       end

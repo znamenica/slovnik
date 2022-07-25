@@ -5,14 +5,14 @@ class LibraController < ApplicationController
 
    # GET /libra
    def index
-      @libra = Librum.all
+      @libra = Librum.all.page(params[:p])
 
       respond_to do |format|
          format.json do
             render plain: {
                list: @libra.as_json,
                page: @page,
-               total: @libra.size
+               total: @libra.total_count
             }.to_json
          end
       end

@@ -2,15 +2,14 @@ class UsersController < ApplicationController
    before_action :set_user, only: [:show]
 
    def index
-      @users = User.all#.page(params[:p])
+      @users = User.all.page(params[:p])
 
       respond_to do |format|
          format.json do
             render plain: {
                list: @users.as_json,#.jsonize(context),
                page: @page,
-               #total: @users.total_size
-               total: @users.size
+               total: @users.total_count
             }.to_json#(context)
          end
       end
