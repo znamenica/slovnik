@@ -6,7 +6,7 @@ FactoryBot.define do
       author { association :user }
    end
 
-   factory :novelty, parent: :librum do
+   factory :novelty, parent: :librum, class: 'Novelty' do
       type { "Novelty" }
    end
 end

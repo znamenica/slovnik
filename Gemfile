@@ -48,6 +48,11 @@ gem 'net-imap'
 # pagination
 gem 'kaminari', '>= 1.1.1'
 
+# caching
+gem 'jsonize'
+#gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
+#gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
+
 group :development, :test do
    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
    gem 'pry-byebug'

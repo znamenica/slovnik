@@ -1,4 +1,5 @@
 # require 'tiun'
+require 'pry'
 require 'cucumber/rails'
 require 'shoulda-matchers/cucumber'
 

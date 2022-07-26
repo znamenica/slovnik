@@ -179,6 +179,9 @@ GEM
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
+    jsonize (0.1.0)
+      activerecord (>= 4.2)
+      redisize
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -287,6 +290,7 @@ GEM
     rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redisize (0.1.0)
     regexp_parser (2.5.0)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -382,6 +386,7 @@ DEPENDENCIES
   factory_bot
   faker
   ffaker
+  jsonize
   kaminari (>= 1.1.1)
   listen (>= 3.0.5, < 3.2)
   net-imap

@@ -10,7 +10,7 @@ class NoveltiesController < ApplicationController
       respond_to do |format|
          format.json do
             render plain: {
-               list: @novelties.as_json,
+               list: @novelties.jsonize(context),
                page: @page,
                total: @novelties.total_count
             }.to_json
@@ -21,8 +21,7 @@ class NoveltiesController < ApplicationController
    # GET /novelties/1
    def show
       respond_to do |format|
-         format.json { render plain: @novelty.as_json.to_json }
-         #@novelty.jsonize(context)
+         format.json { render :show, json: @novelty.jsonize(context) }
       end
    end
 
@@ -85,5 +84,9 @@ class NoveltiesController < ApplicationController
    # Only allow a list of trusted parameters through.
    def novelty_params
       params.require(:novelty).permit(:text, :title, :author_id)
+   end
+
+   def context
+      @context ||= { except: %i(created_at updated_at tsv) }
    end
 end

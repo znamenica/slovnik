@@ -10,7 +10,7 @@ class LibraController < ApplicationController
       respond_to do |format|
          format.json do
             render plain: {
-               list: @libra.as_json,
+               list: @libra.jsonize(context),
                page: @page,
                total: @libra.total_count
             }.to_json
@@ -21,8 +21,7 @@ class LibraController < ApplicationController
    # GET /libra/1
    def show
       respond_to do |format|
-         format.json { render plain: @librum.as_json.to_json }
-         #@librum.jsonize(context)
+         format.json { render :show, json: @librum.jsonize(context) }
       end
    end
 
@@ -85,5 +84,9 @@ class LibraController < ApplicationController
    # Only allow a list of trusted parameters through.
    def librum_params
       params.require(:librum).permit(:text, :title, :author_id)
+   end
+
+   def context
+      @context ||= { except: %i(created_at updated_at tsv) }
    end
 end

@@ -153,6 +153,7 @@ end
 end
 
 То('добѫдѫ вывод:') do |doc_string|   # match_response_schema
+   # binding.pry
    expect(@response).to match_response_json_yaml(doc_string)
 end
 

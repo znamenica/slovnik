@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
    before_action :set_user, only: [:show]
+   before_action :set_locales
 
    def index
       @users = User.all.page(params[:p])
@@ -7,10 +8,10 @@ class UsersController < ApplicationController
       respond_to do |format|
          format.json do
             render plain: {
-               list: @users.as_json,#.jsonize(context),
+               list: @users.jsonize(context),
                page: @page,
                total: @users.total_count
-            }.to_json#(context)
+            }.to_json
          end
       end
    end
@@ -18,11 +19,7 @@ class UsersController < ApplicationController
    # GET /users/1
    def show
       respond_to do |format|
-         format.json do
-            render plain:
-               @user.as_json #.jsonize(context)
-            .to_json#(context)
-         end
+         format.json { render :show, json: @user.jsonize(context) }
       end
    end
 
@@ -30,5 +27,13 @@ class UsersController < ApplicationController
    # Use callbacks to share common setup or constraints between actions.
    def set_user
       @user = User.find(params[:id])
+   end
+
+   def context
+      @context ||= { locales: @locales, only: %i(id email firstname midname lastname nickname) }
+   end
+
+   def set_locales
+      @locales ||= :ru
    end
 end
