@@ -95,4 +95,36 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'allslavic.org', port: 80 }
 
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
+
+  config.active_job.queue_adapter = :sidekiq
+
+  config.action_dispatch.rack_cache = {
+    expire_after: 1.day,
+    metastore: "redis://localhost:6379/2/metastore",
+    entitystore: "redis://localhost:6379/2/entitystore",
+    compress: Snappy
+  }
+
+  config.cache_store = :redis_cache_store, {
+    url: File.join(ENV['REDIS_URL'], "0/cache"),
+    error_handler: -> (method:, returning:, exception:) {
+      # reports to Sentry
+      Raven.capture_exception exception, level: 'warning',
+      tags: { method: method, returning: returning }
+    },
+    expires_in: 1.day,
+    key: "_#{Rails.application.class.name.split("::").first.downcase}_cache",
+  }
+
+  config.session_store = :redis_session_store, {
+    key: "_#{Rails.application.class.name.split("::").first.downcase}_session",
+    redis: {
+      expire_after: 120.minutes,  # cookie expiration
+      ttl: 120.minutes,           # Redis expiration, defaults to 'expire_after'
+      key_prefix: 'allslavic:session:',
+      url: File.join(ENV['REDIS_URL'], "1/session")
+    }
+  }
+
+  config.active_job.queue_adapter = :sidekiq
 end

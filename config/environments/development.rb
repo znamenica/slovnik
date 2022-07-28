@@ -17,9 +17,29 @@ Rails.application.configure do
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
-    config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
+    config.cache_store = :redis_cache_store, {
+      url: File.join(ENV['REDIS_URL'], "0/cache"),
+      error_handler: -> (method:, returning:, exception:) {
+        # reports to Sentry
+        Raven.capture_exception exception, level: 'warning',
+        tags: { method: method, returning: returning }
+      },
+      expires_in: 1.day,
+      key: "_#{Rails.application.class.name.split("::").first.downcase}_cache",
+    }
+
     config.public_file_server.headers = {
       'Cache-Control' => "public, max-age=#{2.days.to_i}"
+    }
+
+    config.session_store = :redis_session_store, {
+      key: "_#{Rails.application.class.name.split("::").first.downcase}_session",
+      redis: {
+        expire_after: 120.minutes,  # cookie expiration
+        ttl: 120.minutes,           # Redis expiration, defaults to 'expire_after'
+        key_prefix: 'allslavic:session:',
+        url: File.join(ENV['REDIS_URL'], "1/session")
+      }
     }
   else
     config.action_controller.perform_caching = false
@@ -60,4 +80,6 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  config.active_job.queue_adapter = :sidekiq
 end
