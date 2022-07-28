@@ -6,11 +6,25 @@ GIT
       capistrano (>= 3.7.0, < 3.18.0)
 
 GIT
+  remote: https://github.com/majioa/dotenv.git
+  revision: 3ebec460c0b195495265b0ce4122172b084853d0
+  specs:
+    dotenv (2.7.6)
+    dotenv-rails (2.7.6)
+      dotenv (= 2.7.6)
+      railties (>= 3.2)
+
+GIT
   remote: https://github.com/treenewbee/capistrano3-nginx.git
   revision: dc942b5e47e00ee32c7e60a2e47b29ce15172330
   specs:
     capistrano3-nginx (3.0.4)
       capistrano (~> 3.0)
+
+PATH
+  remote: /usr/local/home/majioa/git/redisize
+  specs:
+    redisize (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -176,6 +190,7 @@ GEM
     globalid (1.0.0)
       activesupport (>= 5.0)
     hashie (5.0.0)
+    hiredis (0.6.3)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
@@ -290,7 +305,23 @@ GEM
     rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redisize (0.1.0)
+    redis (4.7.1)
+    redis-actionpack (5.3.0)
+      actionpack (>= 5, < 8)
+      redis-rack (>= 2.1.0, < 3)
+      redis-store (>= 1.1.0, < 2)
+    redis-activesupport (5.3.0)
+      activesupport (>= 3, < 8)
+      redis-store (>= 1.3, < 2)
+    redis-rack (2.1.4)
+      rack (>= 2.0.8, < 3)
+      redis-store (>= 1.2, < 2)
+    redis-rails (5.0.2)
+      redis-actionpack (>= 5.0, < 6)
+      redis-activesupport (>= 5.0, < 6)
+      redis-store (>= 1.2, < 2)
+    redis-store (1.9.1)
+      redis (>= 4, < 5)
     regexp_parser (2.5.0)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -382,10 +413,12 @@ DEPENDENCIES
   cucumber-rails
   database_rewinder
   devise
+  dotenv-rails!
   ed25519 (~> 1.2)
   factory_bot
   faker
   ffaker
+  hiredis (~> 0.6)
   jsonize
   kaminari (>= 1.1.1)
   listen (>= 3.0.5, < 3.2)
@@ -398,6 +431,9 @@ DEPENDENCIES
   pry-byebug
   puma (~> 5.6)
   rails (~> 6.1, >= 6.1.6.1)
+  redis (~> 4.0)
+  redis-rails (~> 5.0)
+  redisize!
   selenium-webdriver
   sentry-rails
   sentry-ruby

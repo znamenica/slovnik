@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+## Environment
+gem 'dotenv-rails', require: 'dotenv/rails-now', github: "majioa/dotenv"
+
 gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1', '>= 6.1.6.1'
@@ -19,8 +22,6 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 #gem 'jbuilder', '~> 2.5'
 gem 'oj'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -49,9 +50,14 @@ gem 'net-imap'
 gem 'kaminari', '>= 1.1.1'
 
 # caching
+## Use Redis adapter to run Action Cable in production
+## cache, session, rack / json, with usage delayed_jobs
+gem 'hiredis', '~> 0.6'
+gem 'redis', '~> 4.0', require: %w(redis redis/connection/hiredis)
+gem 'redis-rails', '~> 5.0'
 gem 'jsonize'
 #gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
-#gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
+gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
 
 group :development, :test do
    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
