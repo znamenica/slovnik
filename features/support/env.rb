@@ -38,6 +38,7 @@ Before do
    # for minitest
    self.assertions ||= 0
 
+   Redis.current.flushall
    DatabaseRewinder.clean_all
 end
 

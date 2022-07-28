@@ -1,8 +1,7 @@
 [Unit]
-Description=<%= fetch(:application) %> application server
+Description=<%= fetch(:application) %> application server sidekiq
 After=network.target remote-fs.target nss-lookup.target
-Wants=postgresql.service allslavic-sidekiq.service
-Requires=redis.service
+Requires=redis.service postgresql.service
 
 [Service]
 Type=simple
@@ -10,13 +9,12 @@ User=_nginx
 Group=_nginx
 Environment=RAILS_ENV=<%= fetch(:rails_env) %>
 WorkingDirectory=<%= current_path %>
-ExecStart=/bin/bash -lc 'exec bundle exec puma'
+ExecStart=/bin/bash -lc 'exec bundle exec sidekiq'
 StandardInput=null
 StandardOutput=syslog
 StandardError=syslog
 TimeoutSec=30
-SyslogIdentifier=allslavic
+SyslogIdentifier=allslavic-sidekiq
 
 [Install]
 WantedBy=multi-user.target
-

@@ -7,4 +7,6 @@ Rails.application.routes.draw do
    resources :novelties, path: '/news'
    resources :libra, path: '/library'
    resources :users, only: %i(index show)
+
+   mount Sidekiq::Web => "/dashboard/sidekiq"
 end

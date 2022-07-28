@@ -55,9 +55,15 @@ gem 'kaminari', '>= 1.1.1'
 gem 'hiredis', '~> 0.6'
 gem 'redis', '~> 4.0', require: %w(redis redis/connection/hiredis)
 gem 'redis-rails', '~> 5.0'
+gem 'redis-namespace'
 gem 'jsonize'
+gem 'redisize', '~> 0.1.1'
 #gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
-gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
+# gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
+# gem 'snappy'
+gem 'sidekiq', ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
+gem 'sidekiq-worker-killer'
+gem 'sidekiq-limit_fetch'
 
 group :development, :test do
    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -99,4 +105,5 @@ end
 group :production do
    gem "sentry-ruby"
    gem "sentry-rails"
+   gem 'sentry-sidekiq'
 end

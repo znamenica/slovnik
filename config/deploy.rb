@@ -45,11 +45,11 @@ set :systemd_redis_service, "redis"
 task :setup do
    after 'setup', 'systemd:core:setup'
    after 'setup', 'nginx:site:add'
-   # after 'setup', 'systemd:sidekiq:setup'
+   after 'setup', 'systemd:sidekiq:setup'
 end
 
 # deploy
-# after 'deploy:publishing', 'systemd:sidekiq:enable'
+after 'deploy:publishing', 'systemd:sidekiq:enable'
 after 'deploy:publishing', 'systemd:core:enable'
 after 'deploy:finishing', 'deploy:cleanup'
 
@@ -58,5 +58,5 @@ before 'nginx:reload', 'nginx:create_log_paths'
 before 'deploy:cleanup', 'nginx:restart'
 before 'nginx:restart', 'nginx:site:enable'
 before 'deploy:restart', 'nginx:restart'
-# after 'deploy:restart', 'systemd:sidekiq:reload-or-restart'
+after 'deploy:restart', 'systemd:sidekiq:reload-or-restart'
 after 'deploy:restart', 'systemd:core:reload-or-restart'

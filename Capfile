@@ -15,7 +15,7 @@ install_plugin Capistrano::SCM::Git
 install_plugin Capistrano::Nginx
 
 require "capistrano/systemd/multiservice"
-# install_plugin Capistrano::Systemd::MultiService.new_service("sidekiq")
+install_plugin Capistrano::Systemd::MultiService.new_service("sidekiq")
 install_plugin Capistrano::Systemd::MultiService.new_service("core")
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
