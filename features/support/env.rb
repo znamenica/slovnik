@@ -15,6 +15,12 @@ Shoulda::Matchers.configure do |config|
    end
 end
 
+RSpec::Matchers.define :match_record_yaml do |yaml|
+   match do |record|
+      deep_match(record.attributes, YAML.load(yaml))
+   end
+end
+
 RSpec::Matchers.define :match_response_json_yaml do |yaml|
    match do |response|
       hash = JSON.load(response.body)

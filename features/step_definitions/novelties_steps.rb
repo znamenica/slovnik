@@ -42,3 +42,12 @@ end
 Если('запытам добыванје послѣднеи изнаходи новине') do
    @response = get("/news/#{Novelty.last.id}.json")
 end
+
+Если('є створенје новине сѫ даными:') do |table|
+   attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
+   @response = post("/news.json", {novelty: attrs})
+end
+
+Если('послѣдня изнаходь новине бѫдє яко:') do |doc_string|
+   expect(Novelty.order(:created_at).last).to match_record_yaml(doc_string)
+end

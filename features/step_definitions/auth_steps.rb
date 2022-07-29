@@ -163,7 +163,6 @@ end
    @current_user = FactoryBot.create(:user, attrs)
 end
 
-
 Если('правим своє мыле без текучеи лозинке') do
    form_fill_in(email: FFaker::Internet.safe_email, current_password: '')
 end
@@ -177,4 +176,13 @@ end
    current_user.reload.confirm
    expect(current_user.valid_password?(current_user.password)).to be_truthy
    expect(current_user.valid_password?(@options[:password])).to be_falsey
+end
+
+То('уже нєсм приявеным') do
+   response = get('/me.json')
+   expect(response.status).to eq(401)
+end
+
+Если('запытам одстраненје изнаходи {string}') do |path|
+   delete(path)
 end

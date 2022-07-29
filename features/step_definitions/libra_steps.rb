@@ -54,3 +54,13 @@ end
 Если('запытам добыванје послѣднеи изнаходи буке') do
    @response = get("/library/#{Librum.last.id}.json")
 end
+
+Если('є створенје бука сѫ даными:') do |table|
+   attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
+   @response = post("/library.json", {librum: attrs})
+end
+
+Если('послѣдня изнаходь буке бѫдє яко:') do |doc_string|
+   expect(Librum.order(:created_at).last).to match_record_yaml(doc_string)
+end
+

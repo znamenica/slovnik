@@ -2,6 +2,7 @@ class UsersController < ApplicationController
    before_action :set_user, only: [:show]
    before_action :set_locales
 
+   # GET /users.json
    def index
       @users = User.all.page(params[:p])
 
@@ -16,10 +17,17 @@ class UsersController < ApplicationController
       end
    end
 
-   # GET /users/1
+   # GET /users/1.json
    def show
       respond_to do |format|
          format.json { render :show, json: @user.jsonize(context) }
+      end
+   end
+
+   # GET /me.json
+   def me
+      respond_to do |format|
+         format.json { render :show, json: current_user.jsonize(context) }
       end
    end
 

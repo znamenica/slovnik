@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
    rescue ActiveRecord::RecordNotFound => e
       Rails.logger.error("[#{e}]: #{e.message}\n\t#{e.backtrace.join("\n\t")}")
 
-      render_unauthorized
+      render_unauthenticated
    end
 
    def auth_token
@@ -36,10 +36,10 @@ class ApplicationController < ActionController::Base
       @json_request ||= request.format.json? || request.content_type == "application/json"
    end
 
-   def render_unauthorized
+   def render_unauthenticated
       respond_to do |format|
-         format.html { render "home", status: :internal_server_error }
-         format.json { render json: {error: {message: 'Unauthorized'}, status: :unauthorized }}
+         format.html { render "home", status: :unauthorized }
+         format.json { render json: {error: {message: 'Unauthenticated'}}, status: :unauthorized }
       end
    end
 
