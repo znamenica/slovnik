@@ -107,4 +107,5 @@ group :production do
    gem "sentry-ruby"
    gem "sentry-rails"
    gem 'sentry-sidekiq'
+   gem 'rack-cors', require: 'rack/cors'
 end
