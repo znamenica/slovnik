@@ -40,12 +40,12 @@ class NoveltiesController < ApplicationController
 
       @novelty.save!
       respond_to do |format|
-         format.json { render nothing: true, status: :ok }
+         format.json { head :ok }
          format.html { redirect_to @novelty, notice: 'Novelty was successfully created.' }
       end
    rescue
       respond_to do |format|
-         format.json { render nothing: true, status: :locked }
+         format.json { head :locked }
          format.html { render :new }
       end
    end
@@ -55,12 +55,12 @@ class NoveltiesController < ApplicationController
       @novelty.update!(novelty_params)
 
       respond_to do |format|
-         format.json { render nothing: true, status: :ok }
+         format.json { head :ok }
          format.html { redirect_to @novelty, notice: 'Novelty was successfully updated.' }
       end
    rescue
       respond_to do |format|
-         format.json { render nothing: true, status: :locked }
+         format.json { head :locked }
          format.html { render :edit }
       end
    end
@@ -70,7 +70,7 @@ class NoveltiesController < ApplicationController
       @novelty.destroy
 
       respond_to do |format|
-         format.json { render nothing: true, status: :ok }
+         format.json { head :ok }
          format.html { redirect_to novelties_url, notice: 'Novelty was successfully destroyed.' }
       end
    end

@@ -4,10 +4,11 @@ Rails.application.routes.draw do
    #Tiun::Engine.routes
    root to: "application#home"
 
-   resources :novelties, path: '/news'
-   resources :libra, path: '/library'
    resources :users, only: %i(index show)
    get '/me' => 'users#me'
+   post '/me' => 'users#upme'
+   resources :novelties, path: '/news'
+   resources :libra, path: '/library'
 
    mount Sidekiq::Web => "/dashboard/sidekiq"
 end

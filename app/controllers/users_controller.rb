@@ -31,6 +31,21 @@ class UsersController < ApplicationController
       end
    end
 
+   # PATCH/PUT /me
+   def upme
+      current_user.update!(user_params)
+
+      respond_to do |format|
+         format.json { head :ok }
+         format.html { redirect_to @novelty, notice: 'Current user was successfully updated.' }
+      end
+   rescue
+      respond_to do |format|
+         format.json { head :locked }
+         format.html { render :edit }
+      end
+   end
+
    private
    # Use callbacks to share common setup or constraints between actions.
    def set_user
@@ -43,5 +58,9 @@ class UsersController < ApplicationController
 
    def set_locales
       @locales ||= :ru
+   end
+
+   def user_params
+      params.require(:user).permit(:firstname, :midname, :lastname, :nickname)
    end
 end

@@ -158,7 +158,6 @@ end
 end
 
 Допустим('є користник сѫ даными:') do |table|
-  # table is a Cucumber::MultilineArgument::DataTable
    attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
    @current_user = FactoryBot.create(:user, attrs)
 end
@@ -184,5 +183,11 @@ end
 end
 
 Если('запытам одстраненје изнаходи {string}') do |path|
-   delete(path)
+   @response = delete(path)
 end
+
+Если('запытам одсланје користника во изнаходь {string} сѫ даными:') do |path, table|
+   attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
+   @response = post(path, {user: attrs})
+end
+

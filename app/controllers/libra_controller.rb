@@ -40,12 +40,12 @@ class LibraController < ApplicationController
 
       @librum.save!
       respond_to do |format|
-         format.json { render nothing: true, status: :ok }
+         format.json { head :ok }
          format.html { redirect_to @librum, notice: 'Librum was successfully created.' }
       end
    rescue
       respond_to do |format|
-         format.json { render nothing: true, status: :locked }
+         format.json { head :locked }
          format.html { render :new }
       end
    end
@@ -55,12 +55,12 @@ class LibraController < ApplicationController
       @librum.update!(librum_params)
 
       respond_to do |format|
-         format.json { render nothing: true, status: :ok }
+         format.json { head :ok }
          format.html { redirect_to @librum, notice: 'Librum was successfully updated.' }
       end
    rescue
       respond_to do |format|
-         format.json { render nothing: true, status: :locked }
+         format.json { head :locked }
          format.html { render :edit }
       end
    end
@@ -70,7 +70,7 @@ class LibraController < ApplicationController
       @librum.destroy
 
       respond_to do |format|
-         format.json { render nothing: true, status: :ok }
+         format.json { head :ok }
          format.html { redirect_to libra_url, notice: 'Librum was successfully destroyed.' }
       end
    end

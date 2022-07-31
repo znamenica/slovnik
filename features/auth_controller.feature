@@ -211,3 +211,34 @@
          firstname: Валос
          email: w@sss.ru
          """
+
+   @json
+   Пример: Користник прави своє дане
+      Допустим є користник сѫ даными:
+         | id                    | 1000         |
+         | email                 | w@sss.ru     |
+         | firstname             | Валос        |
+         | password              | СтараЛозинка |
+         | password_confirmation | СтараЛозинка |
+      И є токен для користника "user"
+      Если запытам одсланје користника во изнаходь "/me.json" сѫ даными:
+         | email                 | w@sss.ru     |
+         | firstname             | Имя          |
+         | midname               | Отчество     |
+         | lastname              | Фамилия      |
+         | nickname              | Кликуха      |
+         | password              | НоваЛозинка  |
+         | password_confirmation | НоваЛозинка  |
+         | current_password      | СтараЛозинка |
+      То добѫдѫ кодъ поврата "200"
+      Если запытам добыванје из изнаходи "/me.json"
+      То добѫдѫ кодъ поврата "200"
+      И добѫдѫ вывод:
+         """
+         ---
+         email: w@sss.ru
+         firstname: Имя
+         midname: Отчество
+         lastname: Фамилия
+         nickname: Кликуха
+         """
