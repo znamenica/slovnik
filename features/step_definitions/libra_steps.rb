@@ -48,7 +48,7 @@ end
 end
 
 Если('запытам изтрѣнје изнаходи {string}') do |path|
-   delete(path)
+   @response = delete(path)
 end
 
 Если('запытам добыванје послѣднеи изнаходи буке') do

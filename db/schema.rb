@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_22_085431) do
+ActiveRecord::Schema.define(version: 2022_07_29_224033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
@@ -29,6 +29,13 @@ ActiveRecord::Schema.define(version: 2022_07_22_085431) do
     t.index ["title"], name: "index_libra_on_title"
     t.index ["tsv"], name: "index_libra_on_tsv", using: :gin
     t.index ["type"], name: "index_libra_on_type"
+  end
+
+  create_table "meanings", force: :cascade do |t|
+    t.integer "tag_ids", default: [], null: false, array: true
+    t.integer "article_ids", default: [], null: false, array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tokens", force: :cascade do |t|

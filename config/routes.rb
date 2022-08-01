@@ -9,6 +9,7 @@ Rails.application.routes.draw do
    post '/me' => 'users#upme'
    resources :novelties, path: '/news'
    resources :libra, path: '/library'
+   resources :meanings, path: '/m', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
 
    mount Sidekiq::Web => "/dashboard/sidekiq"
 end
