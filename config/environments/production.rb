@@ -98,12 +98,12 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :sidekiq
 
-  config.action_dispatch.rack_cache = {
-    expire_after: 1.day,
-    metastore: "redis://localhost:6379/2/metastore",
-    entitystore: "redis://localhost:6379/2/entitystore",
-    compress: Snappy
-  }
+  # config.action_dispatch.rack_cache = {
+  #   expire_after: 1.day,
+  #   metastore: "redis://localhost:6379/2/metastore",
+  #   entitystore: "redis://localhost:6379/2/entitystore",
+  #   compress: Snappy
+  # }
 
   config.cache_store = :redis_cache_store, {
     url: File.join(ENV['REDIS_URL'], "0/cache"),

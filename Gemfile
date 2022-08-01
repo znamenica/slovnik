@@ -55,7 +55,6 @@ gem 'kaminari', '>= 1.1.1'
 gem 'hiredis', '~> 0.6'
 gem 'redis', '~> 4.0', require: %w(redis redis/connection/hiredis)
 gem 'redis-rails', '~> 5.0'
-gem 'redis-rack-cache'
 gem 'redis-namespace'
 gem 'jsonize'
 gem 'redisize', '~> 0.1.1'
@@ -111,4 +110,5 @@ group :production do
    gem "sentry-rails"
    gem 'sentry-sidekiq'
    gem 'rack-cors', require: 'rack/cors'
+   # gem 'redis-rack-cache'
 end
