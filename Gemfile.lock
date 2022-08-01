@@ -21,12 +21,6 @@ GIT
     capistrano3-nginx (3.0.4)
       capistrano (~> 3.0)
 
-PATH
-  remote: /usr/local/home/majioa/git/activerecord-postgres-array
-  specs:
-    activerecord-postgres-array (0.0.10)
-      activerecord (>= 4.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -423,7 +417,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  activerecord-postgres-array!
   bcrypt_pbkdf (~> 1.0)
   bootsnap (>= 1.1.0)
   capistrano (~> 3.17)

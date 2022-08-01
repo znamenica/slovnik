@@ -65,9 +65,6 @@ gem 'sidekiq', ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
 gem 'sidekiq-worker-killer'
 gem 'sidekiq-limit_fetch'
 
-# database
-gem 'activerecord-postgres-array', path: '/usr/local/home/majioa/git/activerecord-postgres-array'
-
 group :development, :test do
    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
    gem 'pry-byebug'
