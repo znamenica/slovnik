@@ -68,10 +68,6 @@ gem 'sidekiq-limit_fetch'
 group :development, :test do
    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
    gem 'pry-byebug'
-   # gem 'rspec'
-   gem 'shoulda-matchers-cucumber', '>= 1.0.1'
-   gem 'cucumber-rails', require: false
-   gem 'database_rewinder'
    gem 'factory_bot'
    gem 'faker'
    gem 'ffaker'
@@ -96,6 +92,9 @@ end
 
 group :test do
    # Adds support for Capybara system testing and selenium driver
+   gem 'cucumber-rails', require: false
+   gem 'shoulda-matchers-cucumber', '>= 1.0.1'
+   gem 'database_rewinder'
    gem 'capybara', '>= 2.15'
    gem 'selenium-webdriver'
    # Easy installation and use of chromedriver to run system tests with Chrome
