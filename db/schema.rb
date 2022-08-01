@@ -10,11 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_29_224033) do
+ActiveRecord::Schema.define(version: 2022_08_01_224900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
+
+  create_table "alphabeths", force: :cascade do |t|
+    t.string "code", limit: 3, null: false, comment: "Three letter sized code of the alphabeth"
+    t.jsonb "meta", default: {}, null: false, comment: "Jsoned metadata hash for the alphabeth"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_alphabeths_on_code", unique: true
+    t.index ["meta"], name: "index_alphabeths_on_meta"
+  end
+
+  create_table "dictionaries", force: :cascade do |t|
+    t.string "uri", null: false, comment: "Base URI to the dictionary"
+    t.jsonb "meta", default: {}, null: false, comment: "Jsoned metadata hash for the dictionary"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["meta"], name: "index_dictionaries_on_meta"
+    t.index ["uri"], name: "index_dictionaries_on_uri", unique: true
+  end
+
+  create_table "grammars", force: :cascade do |t|
+    t.bigint "language_id", null: false, comment: "Reference to the language"
+    t.bigint "alphabeth_id", null: false, comment: "Reference to the alphabeth"
+    t.bigint "dictionary_id", null: false, comment: "Reference to the dictionary record"
+    t.jsonb "meta", default: {}, null: false, comment: "Jsoned metadata hash for the grammar"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["alphabeth_id"], name: "index_grammars_on_alphabeth_id"
+    t.index ["dictionary_id"], name: "index_grammars_on_dictionary_id"
+    t.index ["language_id", "alphabeth_id", "dictionary_id"], name: "index_grammars_on_language_alphabeth_dictionary", unique: true
+    t.index ["language_id"], name: "index_grammars_on_language_id"
+    t.index ["meta"], name: "index_grammars_on_meta"
+  end
+
+  create_table "languages", force: :cascade do |t|
+    t.string "code", limit: 3, null: false, comment: "Three letter sized code of the language"
+    t.jsonb "meta", default: {}, null: false, comment: "Jsoned metadata hash for the language"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_languages_on_code", unique: true
+    t.index ["meta"], name: "index_languages_on_meta"
+  end
 
   create_table "libra", force: :cascade do |t|
     t.text "text", null: false, comment: "Буко"
@@ -83,6 +124,9 @@ ActiveRecord::Schema.define(version: 2022_07_29_224033) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "grammars", "alphabeths", on_delete: :restrict
+  add_foreign_key "grammars", "dictionaries", on_delete: :restrict
+  add_foreign_key "grammars", "languages", on_delete: :restrict
   add_foreign_key "libra", "users", column: "author_id"
   add_foreign_key "tokens", "users"
 end

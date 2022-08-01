@@ -1,0 +1,2 @@
+class Alphabeth < ApplicationRecord
+end
