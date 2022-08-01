@@ -1,16 +1,4 @@
 class CreateAttitudes < ActiveRecord::Migration[7.0]
-#   def up
-#     execute <<-SQL
-#        CREATE TYPE attitude_kind AS ENUM ('Synonim', 'Antonim');
-#     SQL
-#   end
-#
-#   def down
-#     execute <<-SQL
-#        DROP TYPE attitude_kind;
-#     SQL
-#   end
-#
    def change
       create_enum :attitude_kind, %w(synonim antonim)
 

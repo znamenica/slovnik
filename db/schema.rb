@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_01_224901) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_01_233625) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_224901) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "attitude_kind", ["synonim", "antonim"]
+  create_enum "tag_kind", ["language", "alphabeth", "dictionary", "grammar", "article", "meaning"]
 
   create_table "alphabeths", force: :cascade do |t|
     t.string "code", limit: 3, null: false, comment: "Three letter sized code of the alphabeth"
@@ -92,6 +93,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_224901) do
     t.integer "article_ids", default: [], null: false, array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.enum "kind", null: false, comment: "Tag kind is one of six kinds", enum_type: "tag_kind"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["kind"], name: "index_tags_on_kind"
   end
 
   create_table "tokens", force: :cascade do |t|
