@@ -1,0 +1,2 @@
+class Description < Dictum
+end

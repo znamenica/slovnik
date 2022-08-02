@@ -1,0 +1,2 @@
+class Name < Dictum
+end

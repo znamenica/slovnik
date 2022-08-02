@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_02_135900) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_02_135901) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -55,6 +55,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_135900) do
     t.index ["left_id", "right_id", "kind"], name: "index_attitudes_on_left_id_and_right_id_and_kind", unique: true
     t.index ["left_id"], name: "index_attitudes_on_left_id"
     t.index ["right_id"], name: "index_attitudes_on_right_id"
+  end
+
+  create_table "dicta", force: :cascade do |t|
+    t.string "text", null: false, comment: "Text of the dictum"
+    t.bigint "language_id", null: false, comment: "Reference to the language"
+    t.bigint "alphabeth_id", null: false, comment: "Reference to the alphabeth"
+    t.string "dictumable_type", null: false
+    t.bigint "dictumable_id", null: false, comment: "Polymorphic reference to a describable object"
+    t.string "type", null: false, comment: "Model type for the dictum"
+    t.tsvector "tsv"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["alphabeth_id"], name: "index_dicta_on_alphabeth_id"
+    t.index ["dictumable_type", "dictumable_id"], name: "index_dicta_on_dictumable"
+    t.index ["language_id"], name: "index_dicta_on_language_id"
+    t.index ["text", "language_id", "alphabeth_id", "dictumable_id", "dictumable_type", "type"], name: "index_unique_for_dictum", unique: true
+    t.index ["text"], name: "index_dicta_on_text"
+    t.index ["tsv"], name: "index_dicta_on_tsv", using: :gin
+    t.index ["type"], name: "index_dicta_on_type"
   end
 
   create_table "dictionaries", force: :cascade do |t|
@@ -179,6 +198,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_135900) do
   add_foreign_key "articles", "meanings"
   add_foreign_key "attitudes", "meanings", column: "left_id", on_delete: :restrict
   add_foreign_key "attitudes", "meanings", column: "right_id", on_delete: :restrict
+  add_foreign_key "dicta", "alphabeths"
+  add_foreign_key "dicta", "languages"
   add_foreign_key "grammars", "alphabeths", on_delete: :restrict
   add_foreign_key "grammars", "dictionaries", on_delete: :restrict
   add_foreign_key "grammars", "languages", on_delete: :restrict

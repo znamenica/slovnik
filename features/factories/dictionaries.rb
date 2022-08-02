@@ -1,6 +1,6 @@
 FactoryBot.define do
    factory :dictionary do
-      uri { FFaker::Internet.uri }
+      uri { FFaker::Internet.http_url }
       meta { {} }
    end
 end

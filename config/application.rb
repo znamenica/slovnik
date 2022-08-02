@@ -17,5 +17,10 @@ module Slovnik
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.active_record.legacy_connection_handling = false
+
+    folders = %w(app/models/dictum)
+    folders.each do |folder|
+       config.autoload_paths << Rails.root.join(folder)
+    end
   end
 end

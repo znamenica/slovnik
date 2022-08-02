@@ -1,0 +1,2 @@
+class Patronimic < Dictum
+end
