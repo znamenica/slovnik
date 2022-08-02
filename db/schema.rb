@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_02_092249) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_02_135900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "article_kind", ["regular", "saying", "interpretation", "idiom"]
   create_enum "attitude_kind", ["synonim", "antonim"]
   create_enum "tag_kind", ["language", "alphabeth", "dictionary", "grammar", "article", "meaning"]
 
@@ -27,6 +28,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_092249) do
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_alphabeths_on_code", unique: true
     t.index ["meta"], name: "index_alphabeths_on_meta"
+  end
+
+  create_table "articles", force: :cascade do |t|
+    t.bigint "meaning_id", null: false, comment: "Reference to its meaning"
+    t.bigint "grammar_id", null: false, comment: "Reference to the article grammar"
+    t.bigint "token_ids", default: [], null: false, comment: "Reference array to a token list", array: true
+    t.bigint "tag_ids", default: [], null: false, comment: "Reference array to a tag list", array: true
+    t.string "separators", limit: 1, default: [], null: false, comment: "Separator array used in the article", array: true
+    t.jsonb "meta", default: {}, null: false, comment: "Jsoned metadata hash for the article"
+    t.enum "kind", default: "regular", null: false, comment: "Kind of the article are: Regular, Saying, Interpretation, or Idiom", enum_type: "article_kind"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["grammar_id"], name: "index_articles_on_grammar_id"
+    t.index ["kind"], name: "index_articles_on_kind"
+    t.index ["meaning_id"], name: "index_articles_on_meaning_id"
   end
 
   create_table "attitudes", force: :cascade do |t|
@@ -159,6 +175,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_092249) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "articles", "grammars"
+  add_foreign_key "articles", "meanings"
   add_foreign_key "attitudes", "meanings", column: "left_id", on_delete: :restrict
   add_foreign_key "attitudes", "meanings", column: "right_id", on_delete: :restrict
   add_foreign_key "grammars", "alphabeths", on_delete: :restrict
