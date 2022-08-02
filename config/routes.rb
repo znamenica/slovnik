@@ -16,6 +16,7 @@ Rails.application.routes.draw do
    resources :grammars, path: '/g', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
    resources :attitudes, path: '/at', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
    resources :tags, path: '/t', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
+   resources :pieces, path: '/p', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
 
    mount Sidekiq::Web => "/dashboard/sidekiq"
 end

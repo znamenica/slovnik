@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_01_233625) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_02_092249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -93,6 +93,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_233625) do
     t.integer "article_ids", default: [], null: false, array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "pieces", force: :cascade do |t|
+    t.bigint "language_ids", default: [], null: false, comment: "Reference array to languages", array: true
+    t.string "text", null: false, comment: "Text of the piece without a spaces"
+    t.jsonb "meta", default: {}, null: false, comment: "Jsoned metadata hash for the piece"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["language_ids", "text"], name: "index_pieces_on_language_ids_and_text", unique: true
+    t.index ["language_ids"], name: "index_pieces_on_language_ids"
+    t.index ["meta"], name: "index_pieces_on_meta"
+    t.index ["text"], name: "index_pieces_on_text"
   end
 
   create_table "tags", force: :cascade do |t|
