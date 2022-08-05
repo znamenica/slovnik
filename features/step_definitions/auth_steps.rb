@@ -13,6 +13,13 @@ end
    header 'X-Auth-Token', @token.code
 end
 
+Допустим('є користник сѫ токеном и даными:') do |table|
+   attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
+   @current_user = FactoryBot.create(:user, attrs)
+   @token = FactoryBot.create(:token, user: @current_user)
+   header 'X-Auth-Token', @token.code
+end
+
 То('добѫдѫ кодъ поврата {string}') do |kod|
    expect(@response&.status || page.status_code).to eql(kod.to_i)
 end
@@ -186,8 +193,25 @@ end
    @response = delete(path)
 end
 
-Если('запытам одсланје користника во изнаходь {string} сѫ даными:') do |path, table|
-   attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
+Если('запытам одсланје користника во изнаходь {string} сѫ даными:') do |path, data_in|
+   attrs =
+      if data_in.is_a?(String)
+         YAML.load(data_in)
+      else
+         data_in.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
+      end
+
+   current_user.password = attrs['password'] if attrs['password']
    @response = post(path, {user: attrs})
 end
 
+Если('запытам добыванје новъ токенъ') do
+   @response = post('/users/sign_in.json', user: {email: current_user.email, password: current_user.password})
+   json = JSON.load(@response.body)
+   header 'X-Auth-Token', json["access_token"]
+end
+
+То('добѫдѫ новъ токенъ') do
+   response = get('/me.json')
+   expect(response.status).to eq(200)
+end

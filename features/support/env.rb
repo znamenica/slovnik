@@ -2,6 +2,7 @@
 require 'pry'
 require 'cucumber/rails'
 require 'shoulda-matchers/cucumber'
+require 'database_cleaner/active_record'
 
 FactoryBot.definition_file_paths = %w(features/factories)
 FactoryBot.lint
@@ -45,18 +46,12 @@ Before do
    self.assertions ||= 0
 
    Redis.current.flushall
-   DatabaseRewinder.clean_all
+   DatabaseCleaner.start
 end
 
 After do
-   DatabaseRewinder.clean
+   DatabaseCleaner.clean
 end
 
-at_exit do
-   DatabaseRewinder.clean
-   # Tiun.rollback
-end
-
-#DatabaseCleaner.clean_with(:deletion) # clean once, now
-#DatabaseCleaner.strategy = :transaction
-#Cucumber::Rails::Database.javascript_strategy = :deletion
+DatabaseCleaner[:active_record].strategy = :transaction
+DatabaseCleaner[:redis].strategy = :deletion

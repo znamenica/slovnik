@@ -119,7 +119,13 @@
             dictumable_id: 200001
             dictumable_type: Article
             type: Sentence
-         total: 1
+          - type: Title
+            kind:
+          - type: Name
+            kind: first_name
+          - type: Name
+            kind: nick_name
+         total: 4
          """
 
    @json @delete

@@ -1,9 +1,10 @@
 Допустим('є новина') do
-   FactoryBot.create(:novelty)
+   FactoryBot.create(:novelty, author_id: current_user&.id)
 end
 
 Допустим('є новина сѫ даными:') do |table|
    attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
+   attrs['author_id'] = current_user.id if current_user
    @current_novelty = FactoryBot.create(:novelty, attrs)
 end
 

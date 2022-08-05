@@ -57,9 +57,9 @@ gem 'hiredis', '~> 0.6'
 gem 'redis', '~> 4.0', require: %w(redis redis/connection/hiredis)
 gem 'redis-rails', '~> 5.0'
 gem 'redis-namespace'
-gem 'jsonize'
+gem 'jsonize', '~> 0.1.1'
+# gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
 gem 'redisize', '~> 0.1.1'
-#gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
 # gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
 gem 'snappy'
 gem 'sidekiq', ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
@@ -100,6 +100,8 @@ group :test do
    gem 'selenium-webdriver'
    # Easy installation and use of chromedriver to run system tests with Chrome
    gem 'chromedriver-helper'
+   gem 'database_cleaner-active_record'
+   gem 'database_cleaner-redis'
 end
 
 group :production do

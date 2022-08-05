@@ -53,7 +53,10 @@ class UsersController < ApplicationController
    end
 
    def context
-      @context ||= { locales: @locales, only: %i(id email firstname midname lastname nickname) }
+      @context ||= { locales: @locales, only: %i(id accounts names),
+                     accounts: {only: %i(id social_id user_id sid)},
+                     names: {except: %i(tsv created_at updated_at) } }
+
    end
 
    def set_locales
@@ -61,6 +64,8 @@ class UsersController < ApplicationController
    end
 
    def user_params
-      params.require(:user).permit(:firstname, :midname, :lastname, :nickname)
+      params.require(:user).permit(:id, :password, :password_confirmation,
+         accounts_attributes: [:id, :sid, :social_id, :_destroy],
+         names_attributes: [:id, :text, :kind, :language_id, :alphabeth_id, :_destroy])
    end
 end

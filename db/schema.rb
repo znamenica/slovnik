@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_02_135901) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_03_025300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -21,11 +21,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_135901) do
   create_enum "attitude_kind", ["synonim", "antonim"]
   create_enum "tag_kind", ["language", "alphabeth", "dictionary", "grammar", "article", "meaning"]
 
+  create_table "accounts", force: :cascade do |t|
+    t.bigint "social_id", null: false, comment: "References to social"
+    t.bigint "user_id", null: false, comment: "References to user"
+    t.string "sid", null: false, comment: "User identifier in the specified social"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sid"], name: "index_accounts_on_sid"
+    t.index ["social_id", "sid"], name: "index_accounts_on_social_id_and_sid", unique: true
+    t.index ["social_id"], name: "index_accounts_on_social_id"
+    t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
   create_table "alphabeths", force: :cascade do |t|
     t.string "code", limit: 3, null: false, comment: "Three letter sized code of the alphabeth"
     t.jsonb "meta", default: {}, null: false, comment: "Jsoned metadata hash for the alphabeth"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "short", limit: 2, comment: "Two-letter alphabeth code"
     t.index ["code"], name: "index_alphabeths_on_code", unique: true
     t.index ["meta"], name: "index_alphabeths_on_meta"
   end
@@ -67,6 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_135901) do
     t.tsvector "tsv"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "kind", comment: "Kind of the typed dictum"
     t.index ["alphabeth_id"], name: "index_dicta_on_alphabeth_id"
     t.index ["dictumable_type", "dictumable_id"], name: "index_dicta_on_dictumable"
     t.index ["language_id"], name: "index_dicta_on_language_id"
@@ -104,6 +118,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_135901) do
     t.jsonb "meta", default: {}, null: false, comment: "Jsoned metadata hash for the language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "short", limit: 2, comment: "Two-letter language code"
     t.index ["code"], name: "index_languages_on_code", unique: true
     t.index ["meta"], name: "index_languages_on_meta"
   end
@@ -140,6 +155,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_135901) do
     t.index ["language_ids"], name: "index_pieces_on_language_ids"
     t.index ["meta"], name: "index_pieces_on_meta"
     t.index ["text"], name: "index_pieces_on_text"
+  end
+
+  create_table "socials", force: :cascade do |t|
+    t.string "uri", null: false, comment: "Base URI of the social"
+    t.jsonb "meta", default: {}, null: false, comment: "Jsoned metadata"
+    t.string "kind", null: false, comment: "One word kind of the social"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["kind"], name: "index_socials_on_kind", unique: true
+    t.index ["meta"], name: "index_socials_on_meta"
+    t.index ["uri"], name: "index_socials_on_uri"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -180,20 +206,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_135901) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at", precision: nil
-    t.string "firstname"
-    t.string "midname"
-    t.string "lastname"
-    t.string "nickname"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["firstname"], name: "index_users_on_firstname"
-    t.index ["lastname"], name: "index_users_on_lastname"
-    t.index ["midname"], name: "index_users_on_midname"
-    t.index ["nickname"], name: "index_users_on_nickname"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "accounts", "socials"
+  add_foreign_key "accounts", "users"
   add_foreign_key "articles", "grammars"
   add_foreign_key "articles", "meanings"
   add_foreign_key "attitudes", "meanings", column: "left_id", on_delete: :restrict

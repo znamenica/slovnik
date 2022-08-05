@@ -17,14 +17,17 @@ module Spec
    end
 
    def deep_match obj, to_obj
-      raise if obj.class != to_obj.class
-
       case to_obj
       when Array
          array_match(obj, to_obj)
       when Hash
          hash_match(obj, to_obj)
+      when String
+         raise if obj.to_s != to_obj
+      when Integer
+         raise if obj.to_i != to_obj
       else
+         raise if obj.class != to_obj.class
          raise if obj != to_obj
       end
 

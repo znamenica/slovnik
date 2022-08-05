@@ -1,9 +1,10 @@
 Допустим('є буко') do
-   FactoryBot.create(:librum)
+   FactoryBot.create(:librum, author_id: current_user&.id)
 end
 
 Допустим('є буко сѫ даными:') do |table|
    attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
+   attrs['author_id'] = current_user.id if current_user
    @current_librum = FactoryBot.create(:librum, attrs)
 end
 

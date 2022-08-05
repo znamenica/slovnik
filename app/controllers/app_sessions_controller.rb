@@ -28,7 +28,9 @@ class AppSessionsController < Devise::SessionsController
    protected
 
    def login
-      @user = User.find_for_database_authentication(email: params[:user][:email])
+      kind = params[:user][:kind] || 'email'
+      sid = params[:user][:email]
+      @user = User.joins(:accounts, :socials).where(accounts: {socials: {kind: kind}, sid: sid}).first
       raise ActiveRecord::RecordInvalid unless @user
       raise unless resource.valid_password?(params[:user][:password])
 

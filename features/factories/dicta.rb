@@ -13,5 +13,21 @@ FactoryBot.define do
       trait :for_meaning do
          association :dictumable, factory: :meaning
       end
+
+      factory :title, class: :Title do
+         type { "Title" }
+      end
+
+      factory :name, class: :Name do
+         type { "Name" }
+
+         trait :first_name do
+            kind { 'first_name' }
+         end
+
+         trait :nick_name do
+            kind { 'nick_name' }
+         end
+      end
    end
 end
