@@ -22,5 +22,7 @@ module Slovnik
     folders.each do |folder|
        config.autoload_paths << Rails.root.join(folder)
     end
+
+    config.exceptions_app = self.routes
   end
 end

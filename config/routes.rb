@@ -23,4 +23,7 @@ Rails.application.routes.draw do
    resources :accounts, path: '/ac', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
 
    mount Sidekiq::Web => "/dashboard/sidekiq"
+
+   get "/404" => "errors#not_found"
+   get "/500" => "errors#exception"
 end

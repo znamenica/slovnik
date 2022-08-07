@@ -82,4 +82,6 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   config.active_job.queue_adapter = :sidekiq
+
+  config.consider_all_requests_local = false
 end
