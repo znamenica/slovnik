@@ -202,7 +202,7 @@ end
       end
 
    current_user.password = attrs['password'] if attrs['password']
-   @response = post(path, {user: attrs})
+   @response = put(path, {user: attrs})
 end
 
 Если('запытам добыванје новъ токенъ') do

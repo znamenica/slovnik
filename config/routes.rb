@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
    resources :users, only: %i(index show)
    get '/me' => 'users#me'
-   post '/me' => 'users#upme'
+   put '/me' => 'users#upme'
    resources :novelties, path: '/news'
    resources :libra, path: '/library'
    resources :meanings, path: '/m', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)

@@ -31,7 +31,7 @@ class UsersController < ApplicationController
       end
    end
 
-   # PATCH/PUT /me
+   # PATCH/PUT /me.json
    def upme
       current_user.update!(user_params)
 
