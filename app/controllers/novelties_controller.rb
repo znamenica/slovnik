@@ -5,14 +5,12 @@ class NoveltiesController < ApplicationController
 
    # GET /novelties
    def index
-      @novelties = Novelty.all.page(params[:p])
-
       respond_to do |format|
          format.json do
             render plain: {
-               list: @novelties.jsonize(context),
+               list: @objects.jsonize(context),
                page: @page,
-               total: @novelties.total_count
+               total: @objects.total_count
             }.to_json
          end
       end
@@ -36,7 +34,7 @@ class NoveltiesController < ApplicationController
 
    # POST /novelties
    def create
-      @novelty = Novelty.new(novelty_params)
+      @novelty = model.new(novelty_params)
 
       @novelty.save!
       respond_to do |format|
@@ -78,7 +76,11 @@ class NoveltiesController < ApplicationController
    private
    # Use callbacks to share common setup or constraints between actions.
    def set_novelty
-      @novelty = Novelty.find(params[:id])
+      @novelty = model.find(params[:id])
+   end
+
+   def model
+      Novelty
    end
 
    # Only allow a list of trusted parameters through.

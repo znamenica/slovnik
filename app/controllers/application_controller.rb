@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
    protect_from_forgery with: :null_session, if: :json_request?
    protect_from_forgery with: :exception, unless: :json_request?
    before_action :authenticate_user!, except: [:home]
+   before_action :set_order, only: :index
+   before_action :set_objects, only: :index
 
    rescue_from Exception, with: :render_exception
    # NOTE https://stackoverflow.com/a/48744792/446267
@@ -50,5 +52,17 @@ class ApplicationController < ActionController::Base
          format.html { render "home", status: :internal_server_error }
          format.json { render json: {error: {message: e.message}}, status: :internal_server_error }
       end
+   end
+
+   def set_order
+      sort = params[:sort] || ""
+      hash = sort.split(',').map {|x| (x.split(":") | ['asc'])[0..1] }.to_h
+
+      order = hash.keys & model.attribute_names rescue []
+      @order = order.map {|x| [x, hash[x]] }.to_h
+   end
+
+   def set_objects
+      @objects = model.page(params[:p]).order(@order) rescue []
    end
 end
