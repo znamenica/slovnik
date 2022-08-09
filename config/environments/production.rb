@@ -94,8 +94,6 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'allslavic.org', port: 80 }
 
-  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
-
   config.active_job.queue_adapter = :sidekiq
 
   # config.action_dispatch.rack_cache = {
@@ -109,8 +107,7 @@ Rails.application.configure do
     url: File.join(ENV['REDIS_URL'], "0/cache"),
     error_handler: -> (method:, returning:, exception:) {
       # reports to Sentry
-      Raven.capture_exception exception, level: 'warning',
-      tags: { method: method, returning: returning }
+      Sentry.capture_exception exception, level: 'warning', tags: { method: method, returning: returning }
     },
     expires_in: 1.day,
     key: "_#{Rails.application.class.name.split("::").first.downcase}_cache",
@@ -125,6 +122,4 @@ Rails.application.configure do
       url: File.join(ENV['REDIS_URL'], "1/session")
     }
   }
-
-  config.active_job.queue_adapter = :sidekiq
 end

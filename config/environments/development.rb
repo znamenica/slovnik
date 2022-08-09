@@ -19,11 +19,6 @@ Rails.application.configure do
 
     config.cache_store = :redis_cache_store, {
       url: File.join(ENV['REDIS_URL'], "0/cache"),
-      error_handler: -> (method:, returning:, exception:) {
-        # reports to Sentry
-        Raven.capture_exception exception, level: 'warning',
-        tags: { method: method, returning: returning }
-      },
       expires_in: 1.day,
       key: "_#{Rails.application.class.name.split("::").first.downcase}_cache",
     }

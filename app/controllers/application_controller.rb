@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
    rescue_from Exception, with: :render_exception
    # NOTE https://stackoverflow.com/a/48744792/446267
    rescue_from ActionController::UnknownFormat, with: ->{ render nothing: true }
+   rescue_from ActiveRecord::RecordNotFound, with: :render_invalid_record
 
    def home
    end
@@ -51,6 +52,14 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
          format.html { render "home", status: :internal_server_error }
          format.json { render json: {error: {message: e.message}}, status: :internal_server_error }
+      end
+   end
+
+   def render_invalid_record e
+      Rails.logger.error("[#{e}]: #{e.message}\n\t#{e.backtrace.join("\n\t")}")
+
+      respond_to do |format|
+         format.json { render json: {error: {message: e.message}}, status: 423 }
       end
    end
 
