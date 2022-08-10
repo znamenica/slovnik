@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
    protect_from_forgery with: :null_session, if: :json_request?
    protect_from_forgery with: :exception, unless: :json_request?
    before_action :authenticate_user!, except: [:home]
+   before_action :set_paging, only: :index
    before_action :set_order, only: :index
    before_action :set_objects, only: :index
 
@@ -71,7 +72,12 @@ class ApplicationController < ActionController::Base
       @order = order.map {|x| [x, hash[x]] }.to_h
    end
 
+   def set_paging
+      @page = params.fetch(:p, 1).to_i
+      @per = params.fetch(:per, 25).to_i
+   end
+
    def set_objects
-      @objects = model.page(params[:p]).order(@order) rescue []
+      @objects = model.page(@page).per(@per).order(@order) rescue []
    end
 end

@@ -10,6 +10,7 @@ class NoveltiesController < ApplicationController
             render plain: {
                list: @objects.jsonize(context),
                page: @page,
+               per: @per,
                total: @objects.total_count
             }.to_json
          end
