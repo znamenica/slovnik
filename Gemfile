@@ -57,9 +57,10 @@ gem 'hiredis', '~> 0.6'
 gem 'redis', '~> 4.0', require: %w(redis redis/connection/hiredis)
 gem 'redis-rails', '~> 5.0'
 gem 'redis-namespace'
+gem 'redis-rails-instrumentation'
 gem 'jsonize', '~> 0.1.1'
 # gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
-gem 'redisize', '~> 0.1.1'
+gem 'redisize', '~> 0.1.2'
 # gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
 gem 'snappy'
 gem 'sidekiq', ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)

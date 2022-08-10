@@ -335,10 +335,16 @@ GEM
       redis-actionpack (>= 5.0, < 6)
       redis-activesupport (>= 5.0, < 6)
       redis-store (>= 1.2, < 2)
+    redis-rails-instrumentation (1.0.1)
+      activesupport (>= 3.0)
+      redis (>= 3.0, < 5)
+      sweet_notifications (~> 1.0)
     redis-store (1.9.1)
       redis (>= 4, < 5)
-    redisize (0.1.1)
+    redisize (0.1.2)
     regexp_parser (2.5.0)
+    request_store (1.5.1)
+      rack (>= 1.4)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -396,6 +402,10 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     strscan (3.0.1)
+    sweet_notifications (1.1.1)
+      activesupport (>= 5.2)
+      railties (>= 5.2)
+      request_store (~> 1.0)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     thor (1.2.1)
@@ -467,7 +477,8 @@ DEPENDENCIES
   redis (~> 4.0)
   redis-namespace
   redis-rails (~> 5.0)
-  redisize (~> 0.1.1)
+  redis-rails-instrumentation
+  redisize (~> 0.1.2)
   selenium-webdriver
   sentry-rails
   sentry-ruby

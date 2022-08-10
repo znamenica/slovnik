@@ -1,0 +1,15 @@
+development:
+   :concurrency: 5
+
+production:
+   :concurrency: 10
+
+:pidfile: tmp/pids/sidekiq.pid
+:logfile: log/sidekiq.log
+:max_retries: 1
+:verbose: false
+
+:queues:
+ - caching
+ - default
+ - low
