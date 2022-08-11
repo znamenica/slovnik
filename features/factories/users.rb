@@ -19,5 +19,21 @@ FactoryBot.define do
       after(:create) do |user, e|
          user.confirm
       end
+
+      factory :admin do
+         after(:build) do |user, e|
+            user.add_role :admin
+         end
+      end
+
+      factory :editor do
+         transient do
+            resource { factory :librum }
+         end
+
+         after(:build) do |user, e|
+            user.add_role :editor, e.resource
+         end
+      end
    end
 end

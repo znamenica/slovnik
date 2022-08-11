@@ -52,3 +52,14 @@ end
 Если('послѣдня изнаходь новине бѫдє яко:') do |doc_string|
    expect(Novelty.order(:created_at).last).to match_record_yaml(doc_string)
 end
+
+Допустим('користник є правчиком') do
+   current_user.add_role :editor
+   expect(current_user).to have_role(:editor)
+end
+
+Если('запытам одсланје новине во изнаходь {string} сѫ даными:') do |path, table|
+   attrs = table.rows_hash.map { |attr, value| [ attr, YAML.load(value) ] }.to_h
+   @response = put(path, {novelty: attrs})
+end
+

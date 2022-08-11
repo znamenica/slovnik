@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+   rolify
    devise :database_authenticatable, :registerable, :confirmable,
       :recoverable, :rememberable, :validatable, :trackable, :omniauthable
 

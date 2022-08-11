@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+   include Pundit::Authorization
+
    protect_from_forgery with: :null_session, if: :json_request?
    protect_from_forgery with: :exception, unless: :json_request?
    before_action :authenticate_user!, except: [:home]
@@ -10,6 +12,7 @@ class ApplicationController < ActionController::Base
    # NOTE https://stackoverflow.com/a/48744792/446267
    rescue_from ActionController::UnknownFormat, with: ->{ render nothing: true }
    rescue_from ActiveRecord::RecordNotFound, with: :render_invalid_record
+   rescue_from Pundit::NotAuthorizedError, with: :render_unauthorized
 
    def home
    end
@@ -40,9 +43,14 @@ class ApplicationController < ActionController::Base
       @json_request ||= request.format.json? || request.content_type == "application/json"
    end
 
+   def render_unauthorized
+      respond_to do |format|
+         format.json { render json: {error: {message: 'Unauthorized'}}, status: 403 }
+      end
+   end
+
    def render_unauthenticated
       respond_to do |format|
-         format.html { render "home", status: :unauthorized }
          format.json { render json: {error: {message: 'Unauthenticated'}}, status: :unauthorized }
       end
    end
@@ -51,7 +59,6 @@ class ApplicationController < ActionController::Base
       Rails.logger.error("[#{e}]: #{e.message}\n\t#{e.backtrace.join("\n\t")}")
 
       respond_to do |format|
-         format.html { render "home", status: :internal_server_error }
          format.json { render json: {error: {message: e.message}}, status: :internal_server_error }
       end
    end
@@ -60,7 +67,7 @@ class ApplicationController < ActionController::Base
       Rails.logger.error("[#{e}]: #{e.message}\n\t#{e.backtrace.join("\n\t")}")
 
       respond_to do |format|
-         format.json { render json: {error: {message: e.message}}, status: 423 }
+         format.json { render json: {error: {message: e.message}}, status: :locked }
       end
    end
 

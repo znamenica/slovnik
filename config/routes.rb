@@ -7,8 +7,8 @@ Rails.application.routes.draw do
    resources :users, only: %i(index show)
    get '/me' => 'users#me'
    put '/me' => 'users#upme'
-   resources :novelties, path: '/news'
-   resources :libra, path: '/library'
+   resources :novelties, path: '/news', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
+   resources :libra, path: '/library', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
    resources :meanings, path: '/m', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
    resources :languages, path: '/l', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)
    resources :alphabeths, path: '/a', defaults: { format: :json }, constraints: { format: 'json' }, except: %i(new edit)

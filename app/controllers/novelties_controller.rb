@@ -1,7 +1,9 @@
 class NoveltiesController < ApplicationController
    skip_before_action :authenticate_user!, only: [:index, :show]
 
-   before_action :set_novelty, only: [:show, :edit, :update, :destroy]
+   before_action :set_novelty, only: %i(show update destroy)
+   before_action :init_novelty, only: :create
+   before_action :authorize_novelty, only: %i(create update destroy)
 
    # GET /novelties
    def index
@@ -24,28 +26,12 @@ class NoveltiesController < ApplicationController
       end
    end
 
-   # GET /novelties/new
-   def new
-      @novelty = Novelty.new
-   end
-
-   # GET /novelties/1/edit
-   def edit
-   end
-
    # POST /novelties
    def create
-      @novelty = model.new(novelty_params)
-
       @novelty.save!
+
       respond_to do |format|
          format.json { head :ok }
-         format.html { redirect_to @novelty, notice: 'Novelty was successfully created.' }
-      end
-   rescue
-      respond_to do |format|
-         format.json { head :locked }
-         format.html { render :new }
       end
    end
 
@@ -55,12 +41,6 @@ class NoveltiesController < ApplicationController
 
       respond_to do |format|
          format.json { head :ok }
-         format.html { redirect_to @novelty, notice: 'Novelty was successfully updated.' }
-      end
-   rescue
-      respond_to do |format|
-         format.json { head :locked }
-         format.html { render :edit }
       end
    end
 
@@ -70,14 +50,22 @@ class NoveltiesController < ApplicationController
 
       respond_to do |format|
          format.json { head :ok }
-         format.html { redirect_to novelties_url, notice: 'Novelty was successfully destroyed.' }
       end
    end
 
    private
+
    # Use callbacks to share common setup or constraints between actions.
    def set_novelty
       @novelty = model.find(params[:id])
+   end
+
+   def init_novelty
+      @novelty = model.new(novelty_params)
+   end
+
+   def authorize_novelty
+      authorize @novelty
    end
 
    def model

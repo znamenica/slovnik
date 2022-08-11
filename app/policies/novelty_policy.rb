@@ -1,0 +1,2 @@
+class NoveltyPolicy < LibrumPolicy
+end

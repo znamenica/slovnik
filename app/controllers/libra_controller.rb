@@ -1,18 +1,19 @@
 class LibraController < ApplicationController
    skip_before_action :authenticate_user!, only: [:index, :show]
 
-   before_action :set_librum, only: [:show, :edit, :update, :destroy]
+   before_action :set_librum, only: %i(show update destroy)
+   before_action :init_librum, only: :create
+   before_action :authorize_librum, only: %i(create update destroy)
 
    # GET /libra
    def index
-      @libra = Librum.all.page(params[:p])
-
       respond_to do |format|
          format.json do
             render plain: {
-               list: @libra.jsonize(context),
+               list: @objects.jsonize(context),
                page: @page,
-               total: @libra.total_count
+               per: @per,
+               total: @objects.total_count
             }.to_json
          end
       end
@@ -25,28 +26,12 @@ class LibraController < ApplicationController
       end
    end
 
-   # GET /libra/new
-   def new
-      @librum = Librum.new
-   end
-
-   # GET /libra/1/edit
-   def edit
-   end
-
    # POST /libra
    def create
-      @librum = Librum.new(librum_params)
-
       @librum.save!
+
       respond_to do |format|
          format.json { head :ok }
-         format.html { redirect_to @librum, notice: 'Librum was successfully created.' }
-      end
-   rescue
-      respond_to do |format|
-         format.json { head :locked }
-         format.html { render :new }
       end
    end
 
@@ -56,14 +41,8 @@ class LibraController < ApplicationController
 
       respond_to do |format|
          format.json { head :ok }
-         format.html { redirect_to @librum, notice: 'Librum was successfully updated.' }
       end
-   rescue
-      respond_to do |format|
-         format.json { head :locked }
-         format.html { render :edit }
-      end
-   end
+  end
 
    # DELETE /libra/1
    def destroy
@@ -71,14 +50,26 @@ class LibraController < ApplicationController
 
       respond_to do |format|
          format.json { head :ok }
-         format.html { redirect_to libra_url, notice: 'Librum was successfully destroyed.' }
       end
    end
 
    private
+
    # Use callbacks to share common setup or constraints between actions.
    def set_librum
       @librum = Librum.find(params[:id])
+   end
+
+   def init_librum
+      @librum = model.new(librum_params)
+   end
+
+   def authorize_librum
+      authorize @librum
+   end
+
+   def model
+      Librum
    end
 
    # Only allow a list of trusted parameters through.
