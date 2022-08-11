@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+admined = User.any? { |u| u.has_role? :admin }
+
+if !admined
+   User.find_each do |u|
+      u.add_role :admin
+   end
+end

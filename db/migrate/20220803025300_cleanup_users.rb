@@ -9,7 +9,7 @@ class CleanupUsers < ActiveRecord::Migration[7.0]
 
       email = Social.first_or_create(uri: 'email://loc', kind: 'email')
       User.find_each do |user|
-         user.accounts.first_or_create(social: email, sid: user.read_attribute(:email))
+         user.accounts.first_or_create(social: email, sid: user.read_attribute(:email)) if user.read_attribute(:email).present?
          user.names.first_or_create(kind: 'first_name', text: user.firstname, language: language, alphabeth: alphabeth) if user.firstname
          user.names.first_or_create(type: 'patronymic', text: user.midname, language: language, alphabeth: alphabeth) if user.midname
          user.names.first_or_create(type: 'last_name', text: user.lastname, language: language, alphabeth: alphabeth) if user.lastname
