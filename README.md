@@ -11,6 +11,7 @@ application up and running.
 [![Build Status](https://circleci.com/gh/znamenica/allslavic/tree/master.svg?style=svg)](https://circleci.com/gh/znamenica/allslavic/tree/master)
 [![Code Climate](https://codeclimate.com/github/znamenica/allslavic/badges/gpa.svg)](https://codeclimate.com/github/znamenica/allslavic)
 [![Test Coverage](https://codeclimate.com/github/znamenica/allslavic/badges/coverage.svg)](https://codeclimate.com/github/znamenica/allslavic)
+[![Rails Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop-rails)
 
 ## Requirements
 

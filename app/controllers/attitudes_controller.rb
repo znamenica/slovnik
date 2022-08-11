@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AttitudesController < ApplicationController
    skip_before_action :authenticate_user!, only: %i(index show)
 
@@ -43,17 +45,17 @@ class AttitudesController < ApplicationController
    end
 
    private
-   # Use callbacks to share common setup or constraints between actions.
-   def set_attitude
-      @attitude = Attitude.find(params[:id])
-   end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_attitude
+         @attitude = Attitude.find(params[:id])
+      end
 
-   # Only allow a list of trusted parameters through.
-   def attitude_params
-      params.require(:attitude).permit(:id, :left_id, :right_id, :kind)
-   end
+      # Only allow a list of trusted parameters through.
+      def attitude_params
+         params.require(:attitude).permit(:id, :left_id, :right_id, :kind)
+      end
 
-   def context
-      @context ||= { except: %i(created_at updated_at) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at) }
+      end
 end

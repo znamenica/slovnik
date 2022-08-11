@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LibraController < ApplicationController
    skip_before_action :authenticate_user!, only: [:index, :show]
 
@@ -22,7 +24,7 @@ class LibraController < ApplicationController
    # GET /libra/1
    def show
       respond_to do |format|
-         format.json { render :show, json: @librum.jsonize(context) }
+         format.json { render json: @librum.jsonize(context) }
       end
    end
 
@@ -42,7 +44,7 @@ class LibraController < ApplicationController
       respond_to do |format|
          format.json { head :ok }
       end
-  end
+   end
 
    # DELETE /libra/1
    def destroy
@@ -54,30 +56,29 @@ class LibraController < ApplicationController
    end
 
    private
+      # Use callbacks to share common setup or constraints between actions.
+      def set_librum
+         @librum = Librum.find(params[:id])
+      end
 
-   # Use callbacks to share common setup or constraints between actions.
-   def set_librum
-      @librum = Librum.find(params[:id])
-   end
+      def init_librum
+         @librum = model.new(librum_params)
+      end
 
-   def init_librum
-      @librum = model.new(librum_params)
-   end
+      def authorize_librum
+         authorize @librum
+      end
 
-   def authorize_librum
-      authorize @librum
-   end
+      def model
+         Librum
+      end
 
-   def model
-      Librum
-   end
+      # Only allow a list of trusted parameters through.
+      def librum_params
+         params.require(:librum).permit(:text, :title, :author_id)
+      end
 
-   # Only allow a list of trusted parameters through.
-   def librum_params
-      params.require(:librum).permit(:text, :title, :author_id)
-   end
-
-   def context
-      @context ||= { except: %i(created_at updated_at tsv) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at tsv) }
+      end
 end

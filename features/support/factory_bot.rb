@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FlexStrategy
    attr_reader :model, :run_method
 
@@ -7,7 +9,7 @@ class FlexStrategy
 
    delegate :association, to: :@strategy
 
-   def result(evaluation)
+   def result evaluation
       @run_method = evaluation.instance_variable_get(:@to_create)
       @model = evaluation.instance_variable_get(:@attribute_assigner).instance_variable_get(:@build_class)
 
@@ -17,7 +19,7 @@ class FlexStrategy
    end
 
    def first_or_create object_in, *args
-      attrs = object_in.attributes.select {|key, value| value }.to_h
+      attrs = object_in.attributes.select { |key, value| value }.to_h
       object = model.where(attrs).first || object_in
       if object_in.send("#{object_in.class.primary_key}=", object.send(object_in.class.primary_key))
          object_in.reload

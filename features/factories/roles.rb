@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
    factory :role do
       role { Faker::Lorem.word }
 
       factory :editing_role do
-         role { 'editor' }
+         role { "editor" }
          for_librum
 
          trait :for_librum do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Dictum < ApplicationRecord
    belongs_to :language
    belongs_to :alphabeth

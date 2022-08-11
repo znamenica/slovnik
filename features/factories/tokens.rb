@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
    factory :token do
       code { FFaker::Internet.safe_email }
       kind { :access }
-      expires_at { Time.zone.now + 6.months}
+      expires_at { Time.zone.now + 6.months }
       association :user
 
       after(:build) do |token, evaluator|

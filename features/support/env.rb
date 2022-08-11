@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 # require 'tiun'
-require 'pry'
-require 'cucumber/rails'
-require 'shoulda-matchers/cucumber'
-require 'database_cleaner/active_record'
+require "pry"
+require "cucumber/rails"
+require "shoulda-matchers/cucumber"
+require "database_cleaner/active_record"
 
 FactoryBot.definition_file_paths = %w(features/factories)
 FactoryBot.lint
@@ -41,7 +43,7 @@ end
 
 Before do
    # for route matchers
-   @routes ||= ObjectSpace.each_object(ActionDispatch::Routing::RouteSet).to_a.select {|r| r.routes.count > 0 }.first
+   @routes ||= ObjectSpace.each_object(ActionDispatch::Routing::RouteSet).to_a.find { |r| r.routes.count > 0 }
    # for minitest
    self.assertions ||= 0
 

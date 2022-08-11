@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
    factory :librum do
       type { "Librum" }
@@ -6,7 +8,7 @@ FactoryBot.define do
       author { association :user }
    end
 
-   factory :novelty, parent: :librum, class: 'Novelty' do
+   factory :novelty, parent: :librum, class: "Novelty" do
       type { "Novelty" }
    end
 end

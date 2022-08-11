@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/MethodLength
 class CreateDicta < ActiveRecord::Migration[7.0]
    def change
       enable_extension :btree_gin
@@ -6,13 +9,15 @@ class CreateDicta < ActiveRecord::Migration[7.0]
          t.string :text, index: :gin, null: false, comment: "Text of the dictum"
          t.references :language, index: true, null: false, foreign_key: true, comment: "Reference to the language"
          t.references :alphabeth, index: true, null: false, foreign_key: true, comment: "Reference to the alphabeth"
-         t.references :dictumable, index: true, null: false, polymorphic: true, comment: "Polymorphic reference to a describable object"
+         t.references :dictumable, index: true, null: false, polymorphic: true,
+            comment: "Polymorphic reference to a describable object"
          t.string :type, index: true, null: false, comment: "Model type for the dictum"
-         t.tsvector :tsv, index: {using: :gin}
+         t.tsvector :tsv, index: { using: :gin }
 
          t.timestamps
 
-         t.index %w(text language_id alphabeth_id dictumable_id dictumable_type type), unique: true, name: 'index_unique_for_dictum'
+         t.index %w(text language_id alphabeth_id dictumable_id dictumable_type type), unique: true,
+            name: "index_unique_for_dictum"
       end
 
       reversible do |dir|
@@ -40,3 +45,4 @@ class CreateDicta < ActiveRecord::Migration[7.0]
       end
    end
 end
+# rubocop:enable Metrics/MethodLength

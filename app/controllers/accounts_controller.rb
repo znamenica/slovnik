@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccountsController < ApplicationController
    skip_before_action :authenticate_user!, only: %i(index show)
 
@@ -43,17 +45,17 @@ class AccountsController < ApplicationController
    end
 
    private
-   # Use callbacks to share common setup or constraints between actions.
-   def set_account
-      @account = Account.find(params[:id])
-   end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_account
+         @account = Account.find(params[:id])
+      end
 
-   # Only allow a list of trusted parameters through.
-   def account_params
-      params.require(:account).permit(:id, :user_id, :social_id, :sid)
-   end
+      # Only allow a list of trusted parameters through.
+      def account_params
+         params.require(:account).permit(:id, :user_id, :social_id, :sid)
+      end
 
-   def context
-      @context ||= { except: %i(created_at updated_at) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at) }
+      end
 end

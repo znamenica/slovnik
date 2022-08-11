@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
    factory :article do
       association :meaning
@@ -6,6 +8,6 @@ FactoryBot.define do
       tag_ids { [] }
       separators { [] }
       meta { {} }
-      kind { 'regular' }
+      kind { "regular" }
    end
 end

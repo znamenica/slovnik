@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
    factory :user do
       password { FFaker::Internet.password }
@@ -11,7 +13,7 @@ FactoryBot.define do
       end
 
       after(:build) do |user, e|
-         user.accounts << build(:email, user: user, sid: e.email)
+         user.accounts << build(:email, user:, sid: e.email)
          user.names << build(:name, :first_name, dictumable: user, text: e.firstname)
          user.names << build(:name, :nick_name, dictumable: user, text: e.nickname)
       end

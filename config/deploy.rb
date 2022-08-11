@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.17.0"
 
-set :user, 'majioa'
+set :user, "majioa"
 set :application, "allslavic"
-set :deploy_user, '_nginx'
+set :deploy_user, "_nginx"
 
 set :repo_url, "git@github.com:znamenica/allslavic.git"
 
@@ -36,27 +38,27 @@ set :nginx_static_dir, "public"
 set :nginx_template, "#{stage_config_path}/#{fetch :stage}/nginx.conf.erb"
 
 set :rvm_type, :user                      # Defaults to: :auto
-set :rvm_ruby_version, '3.1.2@allslavic --create'    # Defaults to: 'default'
+set :rvm_ruby_version, "3.1.2@allslavic --create"    # Defaults to: 'default'
 # set :rvm_custom_path, '~/.rvm'          # only needed if not detected
 set :rvm_roles, [:app, :web]
 
 set :systemd_redis_service, "redis"
 
 task :setup do
-   after 'setup', 'systemd:core:setup'
-   after 'setup', 'nginx:site:add'
-   after 'setup', 'systemd:sidekiq:setup'
+   after "setup", "systemd:core:setup"
+   after "setup", "nginx:site:add"
+   after "setup", "systemd:sidekiq:setup"
 end
 
 # deploy
-after 'deploy:publishing', 'systemd:sidekiq:enable'
-after 'deploy:publishing', 'systemd:core:enable'
-after 'deploy:finishing', 'deploy:cleanup'
+after "deploy:publishing", "systemd:sidekiq:enable"
+after "deploy:publishing", "systemd:core:enable"
+after "deploy:finishing", "deploy:cleanup"
 
 # deploy:restart
-before 'nginx:reload', 'nginx:create_log_paths'
-before 'deploy:cleanup', 'nginx:restart'
-before 'nginx:restart', 'nginx:site:enable'
-before 'deploy:restart', 'nginx:restart'
-after 'deploy:restart', 'systemd:sidekiq:reload-or-restart'
-after 'deploy:restart', 'systemd:core:reload-or-restart'
+before "nginx:reload", "nginx:create_log_paths"
+before "deploy:cleanup", "nginx:restart"
+before "nginx:restart", "nginx:site:enable"
+before "deploy:restart", "nginx:restart"
+after "deploy:restart", "systemd:sidekiq:reload-or-restart"
+after "deploy:restart", "systemd:core:reload-or-restart"

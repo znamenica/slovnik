@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TagsController < ApplicationController
    skip_before_action :authenticate_user!, only: %i(index show)
 
@@ -43,17 +45,17 @@ class TagsController < ApplicationController
    end
 
    private
-   # Use callbacks to share common setup or constraints between actions.
-   def set_tag
-      @tag = Tag.find(params[:id])
-   end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_tag
+         @tag = Tag.find(params[:id])
+      end
 
-   # Only allow a list of trusted parameters through.
-   def tag_params
-      params.require(:tag).permit(:id, :kind)
-   end
+      # Only allow a list of trusted parameters through.
+      def tag_params
+         params.require(:tag).permit(:id, :kind)
+      end
 
-   def context
-      @context ||= { except: %i(created_at updated_at) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at) }
+      end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DictaController < ApplicationController
    skip_before_action :authenticate_user!, only: %i(index show)
 
@@ -43,17 +45,17 @@ class DictaController < ApplicationController
    end
 
    private
-   # Use callbacks to share common setup or constraints between actions.
-   def set_dictum
-      @dictum = Dictum.find(params[:id])
-   end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_dictum
+         @dictum = Dictum.find(params[:id])
+      end
 
-   # Only allow a list of trusted parameters through.
-   def dictum_params
-      params.require(:dictum).permit(:id, :text, :language_id, :alphabeth_id, :dictumable_id, :dictumable_type, :type)
-   end
+      # Only allow a list of trusted parameters through.
+      def dictum_params
+         params.require(:dictum).permit(:id, :text, :language_id, :alphabeth_id, :dictumable_id, :dictumable_type, :type)
+      end
 
-   def context
-      @context ||= { except: %i(created_at updated_at) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at) }
+      end
 end

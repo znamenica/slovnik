@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
    factory :dictum do
       text { Faker::Lorem.sentence }
@@ -22,11 +24,11 @@ FactoryBot.define do
          type { "Name" }
 
          trait :first_name do
-            kind { 'first_name' }
+            kind { "first_name" }
          end
 
          trait :nick_name do
-            kind { 'nick_name' }
+            kind { "nick_name" }
          end
       end
    end

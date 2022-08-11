@@ -1,11 +1,13 @@
-require 'sidekiq/worker_killer'
+# frozen_string_literal: true
+
+require "sidekiq/worker_killer"
 
 Sidekiq.strict_args!
 
-Sidekiq.default_job_options = { 'backtrace' => true }
+Sidekiq.default_job_options = { "backtrace" => true }
 
 Sidekiq.configure_server do |config|
-   config.redis = { url: "#{ENV["REDIS_URL"]}/4", namespace: 'caching' }
+   config.redis = { url: "#{ENV.fetch("REDIS_URL", nil)}/4", namespace: "caching" }
 
    config.server_middleware do |chain|
       chain.add Sidekiq::WorkerKiller, max_rss: 480
@@ -17,5 +19,5 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq.configure_client do |config|
-   config.redis = { url: "#{ENV["REDIS_URL"]}/4", namespace: 'caching' }
+   config.redis = { url: "#{ENV.fetch("REDIS_URL", nil)}/4", namespace: "caching" }
 end

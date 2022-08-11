@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GrammarsController < ApplicationController
    skip_before_action :authenticate_user!, only: %i(index show)
 
@@ -43,17 +45,17 @@ class GrammarsController < ApplicationController
    end
 
    private
-   # Use callbacks to share common setup or constraints between actions.
-   def set_grammar
-      @grammar = Grammar.find(params[:id])
-   end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_grammar
+         @grammar = Grammar.find(params[:id])
+      end
 
-   # Only allow a list of trusted parameters through.
-   def grammar_params
-      params.require(:grammar).permit(:id, :language_id, :alphabeth_id, :dictionary_id, meta: {})
-   end
+      # Only allow a list of trusted parameters through.
+      def grammar_params
+         params.require(:grammar).permit(:id, :language_id, :alphabeth_id, :dictionary_id, meta: {})
+      end
 
-   def context
-      @context ||= { except: %i(created_at updated_at) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at) }
+      end
 end

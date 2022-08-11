@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PiecesController < ApplicationController
    skip_before_action :authenticate_user!, only: %i(index show)
 
@@ -43,17 +45,17 @@ class PiecesController < ApplicationController
    end
 
    private
-   # Use callbacks to share common setup or constraints between actions.
-   def set_piece
-      @piece = Piece.find(params[:id])
-   end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_piece
+         @piece = Piece.find(params[:id])
+      end
 
-   # Only allow a list of trusted parameters through.
-   def piece_params
-      params.require(:piece).permit(:id, :text, meta: {}, language_ids: [])
-   end
+      # Only allow a list of trusted parameters through.
+      def piece_params
+         params.require(:piece).permit(:id, :text, meta: {}, language_ids: [])
+      end
 
-   def context
-      @context ||= { except: %i(created_at updated_at) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at) }
+      end
 end

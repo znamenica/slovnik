@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DictionariesController < ApplicationController
    skip_before_action :authenticate_user!, only: %i(index show)
 
@@ -43,17 +45,17 @@ class DictionariesController < ApplicationController
    end
 
    private
-   # Use callbacks to share common setup or constraints between actions.
-   def set_dictionary
-      @dictionary = Dictionary.find(params[:id])
-   end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_dictionary
+         @dictionary = Dictionary.find(params[:id])
+      end
 
-   # Only allow a list of trusted parameters through.
-   def dictionary_params
-      params.require(:dictionary).permit(:id, :uri, meta: {})
-   end
+      # Only allow a list of trusted parameters through.
+      def dictionary_params
+         params.require(:dictionary).permit(:id, :uri, meta: {})
+      end
 
-   def context
-      @context ||= { except: %i(created_at updated_at) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at) }
+      end
 end

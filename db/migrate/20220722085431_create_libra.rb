@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/MethodLength
 class CreateLibra < ActiveRecord::Migration[6.1]
    def change
       enable_extension :btree_gin
@@ -7,7 +10,7 @@ class CreateLibra < ActiveRecord::Migration[6.1]
          t.string :title, null: false, index: true, comment: "Надпис бука"
          t.string :type, null: false, index: true, comment: "Взор бука"
          t.references :author, foreign_key: { to_table: :users }
-         t.tsvector :tsv, index: {using: :gin}
+         t.tsvector :tsv, index: { using: :gin }
 
          t.timestamps
       end
@@ -39,3 +42,4 @@ class CreateLibra < ActiveRecord::Migration[6.1]
       end
    end
 end
+# rubocop:enable Metrics/MethodLength

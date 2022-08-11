@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MeaningsController < ApplicationController
    skip_before_action :authenticate_user!, only: %i(index show)
 
@@ -43,17 +45,17 @@ class MeaningsController < ApplicationController
    end
 
    private
-   # Use callbacks to share common setup or constraints between actions.
-   def set_meaning
-      @meaning = Meaning.find(params[:id])
-   end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_meaning
+         @meaning = Meaning.find(params[:id])
+      end
 
-   # Only allow a list of trusted parameters through.
-   def meaning_params
-      params.require(:meaning).permit(:id, tag_ids: [], article_ids: [])
-   end
+      # Only allow a list of trusted parameters through.
+      def meaning_params
+         params.require(:meaning).permit(:id, tag_ids: [], article_ids: [])
+      end
 
-   def context
-      @context ||= { except: %i(created_at updated_at) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at) }
+      end
 end

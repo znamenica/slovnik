@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NoveltiesController < ApplicationController
    skip_before_action :authenticate_user!, only: [:index, :show]
 
@@ -22,7 +24,7 @@ class NoveltiesController < ApplicationController
    # GET /novelties/1
    def show
       respond_to do |format|
-         format.json { render :show, json: @novelty.jsonize(context) }
+         format.json { render json: @novelty.jsonize(context) }
       end
    end
 
@@ -54,30 +56,29 @@ class NoveltiesController < ApplicationController
    end
 
    private
+      # Use callbacks to share common setup or constraints between actions.
+      def set_novelty
+         @novelty = model.find(params[:id])
+      end
 
-   # Use callbacks to share common setup or constraints between actions.
-   def set_novelty
-      @novelty = model.find(params[:id])
-   end
+      def init_novelty
+         @novelty = model.new(novelty_params)
+      end
 
-   def init_novelty
-      @novelty = model.new(novelty_params)
-   end
+      def authorize_novelty
+         authorize @novelty
+      end
 
-   def authorize_novelty
-      authorize @novelty
-   end
+      def model
+         Novelty
+      end
 
-   def model
-      Novelty
-   end
+      # Only allow a list of trusted parameters through.
+      def novelty_params
+         params.require(:novelty).permit(:text, :title, :author_id)
+      end
 
-   # Only allow a list of trusted parameters through.
-   def novelty_params
-      params.require(:novelty).permit(:text, :title, :author_id)
-   end
-
-   def context
-      @context ||= { except: %i(created_at updated_at tsv) }
-   end
+      def context
+         @context ||= { except: %i(created_at updated_at tsv) }
+      end
 end

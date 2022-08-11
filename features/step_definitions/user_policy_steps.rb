@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given("default User policy") do
    expect(Object.constants).to include(:UserPolicy)
    @policy ||= UserPolicy.new(User.first, User.first)

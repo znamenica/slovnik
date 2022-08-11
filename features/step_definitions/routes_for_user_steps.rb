@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given("default Users controller") do
    described_class do
       V1::UsersController
@@ -5,5 +7,5 @@ Given("default Users controller") do
 end
 
 Then("all default routes are presented") do
-   is_expected.to route(:get, '/v1/users/1.json').to("v1/users#show", id: 1)
+   is_expected.to route(:get, "/v1/users/1.json").to("v1/users#show", id: 1)
 end

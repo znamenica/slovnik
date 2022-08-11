@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spec
    def described_class
       kls = yield if block_given?
@@ -9,7 +11,7 @@ module Spec
    end
 
    def subject
-      Class === described_class ? described_class.new : described_class
+      described_class.is_a?(Class) ? described_class.new : described_class
    end
 
    def json_body
@@ -51,7 +53,7 @@ module Support
    def sign_up options = {}
       current_user_build
 
-      visit '/users/sign_up'
+      visit "/users/sign_up"
       fill_in "user[email]", with: options[:email] || current_user.email
       fill_in "user[password]", with: options[:password] || current_user.password
       fill_in "user[password_confirmation]", with: options[:password_confirmation] || current_user.password_confirmation
@@ -59,11 +61,11 @@ module Support
    end
 
    def sign_out
-      delete '/users/sign_out'
+      delete "/users/sign_out"
    end
 
    def sign_in options = {}
-      visit '/users/sign_in'
+      visit "/users/sign_in"
       fill_in "user[email]", with: options[:email] || current_user.email
       fill_in "user[password]", with: options[:password] || current_user.password
       click_button "Log in"
@@ -72,7 +74,7 @@ module Support
    def form_fill_in options = {}
       @options = options
 
-      visit '/users/edit'
+      visit "/users/edit"
       fill_in "user[email]", with: options[:email] || current_user.email
       fill_in "user[current_password]", with: options[:current_password] || current_user.password
       fill_in "user[password]", with: options[:password]

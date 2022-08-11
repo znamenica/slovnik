@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LibrumPolicy < ApplicationPolicy
    def destroy?
       super or user.has_role? :editor

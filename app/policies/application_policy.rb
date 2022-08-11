@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationPolicy
    attr_reader :user
 
@@ -13,7 +15,7 @@ class ApplicationPolicy
       user.has_role? :admin
    end
 
-   def initialize(user, _record)
+   def initialize user, _record
       @user = user
    end
 end

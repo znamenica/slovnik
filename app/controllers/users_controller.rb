@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
    before_action :set_user, only: [:show]
    before_action :set_locales
@@ -20,14 +22,14 @@ class UsersController < ApplicationController
    # GET /users/1.json
    def show
       respond_to do |format|
-         format.json { render :show, json: @user.jsonize(context) }
+         format.json { render json: @user.jsonize(context) }
       end
    end
 
    # GET /me.json
    def me
       respond_to do |format|
-         format.json { render :show, json: current_user.jsonize(context) }
+         format.json { render json: current_user.jsonize(context) }
       end
    end
 
@@ -37,35 +39,28 @@ class UsersController < ApplicationController
 
       respond_to do |format|
          format.json { head :ok }
-         format.html { redirect_to @novelty, notice: 'Current user was successfully updated.' }
-      end
-   rescue
-      respond_to do |format|
-         format.json { head :locked }
-         format.html { render :edit }
       end
    end
 
    private
-   # Use callbacks to share common setup or constraints between actions.
-   def set_user
-      @user = User.find(params[:id])
-   end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_user
+         @user = User.find(params[:id])
+      end
 
-   def context
-      @context ||= { locales: @locales, only: %i(id accounts names),
-                     accounts: {only: %i(id social_id user_id sid)},
-                     names: {except: %i(tsv created_at updated_at) } }
+      def context
+         @context ||= { locales: @locales, only: %i(id accounts names),
+                        accounts: { only: %i(id social_id user_id sid) },
+                        names: { except: %i(tsv created_at updated_at) } }
+      end
 
-   end
+      def set_locales
+         @locales ||= :ru
+      end
 
-   def set_locales
-      @locales ||= :ru
-   end
-
-   def user_params
-      params.require(:user).permit(:id, :password, :password_confirmation,
-         accounts_attributes: [:id, :sid, :social_id, :_destroy],
-         names_attributes: [:id, :text, :kind, :language_id, :alphabeth_id, :_destroy])
-   end
+      def user_params
+         params.require(:user).permit(:id, :password, :password_confirmation,
+            accounts_attributes: [:id, :sid, :social_id, :_destroy],
+            names_attributes: [:id, :text, :kind, :language_id, :alphabeth_id, :_destroy])
+      end
 end
