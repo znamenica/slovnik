@@ -21,7 +21,9 @@ workflows:
           cat .bundle/config
           gem install bundler:2.2.32
       - name: Install dependencies
-        script: bundle install
+        script: |
+          bundle lock --add-platform x86_64-darwin-21
+          bundle install
       - name: Run tests
         script: bundle exec rake
     triggering:
