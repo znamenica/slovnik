@@ -67,7 +67,6 @@ gem "redisize", "~> 0.1.2"
 gem "sidekiq", ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
 gem "sidekiq-limit_fetch"
 gem "sidekiq-worker-killer"
-gem "snappy"
 
 ## authorization
 gem "pundit"
@@ -126,4 +125,5 @@ group :production do
    gem "sentry-ruby"
    gem "sentry-sidekiq"
    # gem 'redis-rack-cache'
+   # gem "snappy"
 end
