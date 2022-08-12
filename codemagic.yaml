@@ -1,0 +1,36 @@
+workflows:
+  my-workflow:
+    environment:
+      ruby: 3.1.2
+    cache:
+      cache_paths:
+        - $CM_BUILD_DIR/.bundle
+    scripts:
+      - name: View env
+        script: |
+          set -e # exit on first failed command
+
+          ruby -v
+          mkdir -p .bundle
+          echo '
+          ---
+          BUNDLE_DEPLOYMENT: "true"
+          BUNDLE_PATH: "$CM_BUILD_DIR/bundle"
+          BUNDLE_WITHOUT: "development:production"
+          ' > .bundle/config
+          cat .bundle/config
+          gem install bundler:2.2.32
+      - name: Install dependencies
+        script: bundle install
+      - name: Run tests
+        script: bundle exec rake
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns: 
+        - pattern: "*"
+        - pattern: master
+        - pattern: develop
+          include: false
+      cancel_previous_builds: true
