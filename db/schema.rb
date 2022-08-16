@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_09_184641) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_16_185000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -84,7 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_09_184641) do
     t.index ["alphabeth_id"], name: "index_dicta_on_alphabeth_id"
     t.index ["dictumable_type", "dictumable_id"], name: "index_dicta_on_dictumable"
     t.index ["language_id"], name: "index_dicta_on_language_id"
-    t.index ["text", "language_id", "alphabeth_id", "dictumable_id", "dictumable_type", "type"], name: "index_unique_for_dictum", unique: true
+    t.index ["text", "language_id", "alphabeth_id", "dictumable_id", "dictumable_type", "type", "kind"], name: "index_unique_for_dictum", unique: true
     t.index ["text"], name: "index_dicta_on_text"
     t.index ["tsv"], name: "index_dicta_on_tsv", using: :gin
     t.index ["type"], name: "index_dicta_on_type"
