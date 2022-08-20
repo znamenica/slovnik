@@ -7,6 +7,8 @@ class LibraController < ApplicationController
    before_action :init_librum, only: :create
    before_action :authorize_librum, only: %i(create update destroy)
 
+   has_scope :by_tags, only: %i(index), type: :array
+
    # GET /libra
    def index
       respond_to do |format|

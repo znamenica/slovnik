@@ -86,6 +86,6 @@ class ApplicationController < ActionController::Base
       end
 
       def set_objects
-         @objects = model.page(@page).per(@per).order(@order) rescue []
+         @objects = apply_scopes(model).page(@page).per(@per).order(@order) rescue []
       end
 end

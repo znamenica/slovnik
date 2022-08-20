@@ -7,6 +7,8 @@ class NoveltiesController < ApplicationController
    before_action :init_novelty, only: :create
    before_action :authorize_novelty, only: %i(create update destroy)
 
+   has_scope :by_tags, only: %i(index), type: :array
+
    # GET /novelties
    def index
       respond_to do |format|

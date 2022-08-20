@@ -52,7 +52,9 @@ class TagsController < ApplicationController
 
       # Only allow a list of trusted parameters through.
       def tag_params
-         params.require(:tag).permit(:id, :kind)
+         params.require(:tag).permit(:id, :kind,
+                                     titles_attributes: %i(id text kind language_id alphabeth_id _destroy),
+                                     descriptions_attributes: %i(id text kind language_id alphabeth_id _destroy))
       end
 
       def context

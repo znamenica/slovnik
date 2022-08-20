@@ -6,7 +6,12 @@
 end
 
 Если("є створение мѣте сѫ даными:") do |table|
-   attrs = table.rows_hash.transform_values { |value| YAML.load(value) }
+   attrs =
+      if table.is_a?(String)
+         YAML.load(table)
+      else
+         table.rows_hash.transform_values { |value| YAML.load(value) }
+      end
    @response = post("/t.json", { tag: attrs })
 end
 

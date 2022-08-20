@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_16_185000) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_20_142800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_185000) do
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "article_kind", ["regular", "saying", "interpretation", "idiom"]
   create_enum "attitude_kind", ["synonim", "antonim"]
-  create_enum "tag_kind", ["language", "alphabeth", "dictionary", "grammar", "article", "meaning"]
+  create_enum "tag_kind", ["language", "alphabeth", "dictionary", "grammar", "article", "meaning", "librum"]
 
   create_table "accounts", force: :cascade do |t|
     t.bigint "social_id", null: false, comment: "References to social"
@@ -131,6 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_185000) do
     t.tsvector "tsv"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "tag_ids", default: [], null: false, comment: "Набор озов мѣток яко линки", array: true
     t.index ["author_id"], name: "index_libra_on_author_id"
     t.index ["text"], name: "index_libra_on_text"
     t.index ["title"], name: "index_libra_on_title"
