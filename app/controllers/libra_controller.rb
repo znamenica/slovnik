@@ -77,7 +77,7 @@ class LibraController < ApplicationController
 
       # Only allow a list of trusted parameters through.
       def librum_params
-         params.require(:librum).permit(:text, :title, :author_id)
+         params.require(:librum).permit(:text, :title, :author_id, :abstract, :cover_uri, tags: [])
       end
 
       def context

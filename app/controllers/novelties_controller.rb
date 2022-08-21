@@ -77,7 +77,7 @@ class NoveltiesController < ApplicationController
 
       # Only allow a list of trusted parameters through.
       def novelty_params
-         params.require(:novelty).permit(:text, :title, :author_id)
+         params.require(:novelty).permit(:text, :title, :author_id, :abstract, :cover_uri, tags: [])
       end
 
       def context

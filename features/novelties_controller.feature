@@ -7,6 +7,18 @@
          | id        | 10000              |
          | email     | mylo@koristnika.ru |
          | password  | 1234567890         |
+      * є ѧзык сѫ даными:
+         | id           | 200001 |
+         | code         | rus    |
+         | meta         | {}     |
+      * є азбука сѫ даными:
+         | id           | 200001 |
+         | code         | rus    |
+         | meta         | {}     |
+      * є мѣта сѫ даными:
+         | id           | 200001    |
+         | kind         | article   |
+         | title        | tag1      |
       * є буко
       * є новина сѫ даными:
          | id        | 100001             |
@@ -20,12 +32,18 @@
          | author_id | 10000              |
          | title     | Текст 3            |
          | text      | Текстовая строка 3 |
+         | abstract  | Текстовая 3        |
+         | cover_uri | https://uri.ru/uri |
+         | tags      | [tag1]             |
       То добѫдѫ кодъ поврата "200"
       И послѣдня изнаходь новине бѫдє яко:
          """
          ---
          title: Текст 3
          text: Текстовая строка 3
+         abstract: Текстовая 3
+         cover_uri: https://uri.ru/uri
+         tag_ids: [200001]
          """
 
    @json @update
@@ -154,10 +172,6 @@
    @json @index @tags
    Пример: Користник добыває списъ даных по мѣтам
       Допустим є мѣта сѫ даными:
-         | id           | 200001    |
-         | kind         | librum    |
-         | title        | tag1      |
-      И є мѣта сѫ даными:
          | id           | 200002    |
          | kind         | librum    |
          | title        | tag2      |
