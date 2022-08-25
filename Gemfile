@@ -81,6 +81,17 @@ group :development, :test do
    gem "faker"
    gem "ffaker"
    gem "pry-byebug"
+   gem "bundle-audit"
+   gem "brakeman"
+   gem "rubocop", require: false
+   gem "rubocop-checkstyle_formatter", require: false
+   gem "rubocop-faker"
+   gem "rubocop-i18n", require: false
+   gem "rubocop-md"
+   gem "rubocop-performance", require: false
+   gem "rubocop-rails", require: false
+   gem "rubocop-rails_config"
+   gem "rubocop-rake", require: false
 end
 
 group :development do
@@ -96,15 +107,6 @@ group :development do
    gem "capistrano-rvm"
    gem "capistrano-systemd-multiservice", require: false, git: "https://github.com/majioa/capistrano-systemd-multiservice.git"
    gem "ed25519", "~> 1.2"
-   gem "rubocop", require: false
-   gem "rubocop-checkstyle_formatter", require: false
-   gem "rubocop-faker"
-   gem "rubocop-i18n", require: false
-   gem "rubocop-md"
-   gem "rubocop-performance", require: false
-   gem "rubocop-rails", require: false
-   gem "rubocop-rails_config"
-   gem "rubocop-rake", require: false
    gem "spring"
    gem "spring-watcher-listen", "~> 2.0.0"
 end
