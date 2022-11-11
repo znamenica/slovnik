@@ -166,6 +166,7 @@ end
 rescue => e
    Kernel.puts @response.body.inspect
    binding.pry
+   raise e
 end
 
 Допустим("є користник сѫ даными:") do |table|

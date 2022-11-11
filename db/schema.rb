@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_20_142800) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_21_023200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -132,6 +132,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_20_142800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "tag_ids", default: [], null: false, comment: "Набор озов мѣток яко линки", array: true
+    t.string "cover_uri", default: "", comment: "Линка на картинку для чланка"
+    t.string "abstract", default: "", null: false, comment: "Кратке тезе чланка"
     t.index ["author_id"], name: "index_libra_on_author_id"
     t.index ["text"], name: "index_libra_on_text"
     t.index ["title"], name: "index_libra_on_title"

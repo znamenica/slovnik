@@ -21,8 +21,12 @@ module Spec
    def deep_match obj, to_obj
       case to_obj
       when Array
+         raise if obj.class != to_obj.class
+
          array_match(obj, to_obj)
       when Hash
+         raise if obj.class != to_obj.class
+
          hash_match(obj, to_obj)
       when String
          raise if obj.to_s != to_obj

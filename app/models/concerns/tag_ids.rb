@@ -5,10 +5,19 @@ module TagIds
 
    included do
       scope :by_tags, -> (tag_names_in) do
-          tag_names = tag_names_in.is_a?(Array) && tag_names_in || tag_names_in.split(",")
+         tag_names = tag_names_in.is_a?(Array) && tag_names_in || tag_names_in.split(",")
+         pos_names = tag_names.select {|x| x !~ /^\!/}
+         neg_names = tag_names.map {|x| x.match(/^\!(?<name>.*)/)&.[](:name)}.compact
 
-          where(tag_ids: Tag.by_name(tag_names).select("array_agg(tags.id)"))
-       end
+         rela_pos = where(tag_ids: Tag.by_name(pos_names).select("array_agg(tags.id)"))
+
+         if neg_names.any?
+            # matching the arrays and ignoring record, if arrays are matched for a position
+            rela_pos.or(where("NOT tag_ids @> (#{Tag.by_name(neg_names).select("array_agg(tags.id)").to_sql})"))
+         else
+            rela_pos
+         end
+      end
    end
 
    def tags
@@ -21,7 +30,7 @@ module TagIds
          when String, Integer
             Tag.by_name(tags_in)
          else
-            tag_names = tags_in.map?(&:name)
+            tag_names = tags_in&.map(&:name) || []
             Tag.by_name(tag_names)
          end.select(:id).pluck(:id)
    end
