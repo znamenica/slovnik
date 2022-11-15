@@ -5,17 +5,15 @@ module TagIds
 
    included do
       scope :by_tags, -> (tag_names_in) do
-         tag_names = tag_names_in.is_a?(Array) && tag_names_in || tag_names_in.split(",")
-         pos_names = tag_names.select {|x| x !~ /^\!/}
-         neg_names = tag_names.map {|x| x.match(/^\!(?<name>.*)/)&.[](:name)}.compact
+        tag_names_in.reduce(self.where('FALSE')) do |q, tag_names|
+            pos_names = tag_names.split(',').select {|x| x !~ /^\!/}
+            neg_names = tag_names.split(',').map {|x| x.match(/^\!(?<name>.*)/)&.[](:name)}.compact
+            pos_tag_ids = Tag.by_name(pos_names).select("array_agg(tags.id)")
+            neg_tag_ids = Tag.by_name(neg_names).select("array_agg(tags.id)")
+            pos_q = pos_names.any? && self.where("tag_ids @> (#{pos_tag_ids.to_sql})") || self
+            neg_q = neg_names.any? && pos_q.where("NOT tag_ids @> (#{neg_tag_ids.to_sql})") || pos_q
 
-         rela_pos = where(tag_ids: Tag.by_name(pos_names).select("array_agg(tags.id)"))
-
-         if neg_names.any?
-            # matching the arrays and ignoring record, if arrays are matched for a position
-            rela_pos.or(where("NOT tag_ids @> (#{Tag.by_name(neg_names).select("array_agg(tags.id)").to_sql})"))
-         else
-            rela_pos
+            q.or(neg_q)
          end
       end
    end
