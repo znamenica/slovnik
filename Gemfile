@@ -5,6 +5,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.1.2"
 
+# ruby setup
+gem 'bundler', '~> 2.3.25'
+
 ## Environment
 gem "dotenv-rails", require: "dotenv/rails-now", github: "majioa/dotenv"
 
