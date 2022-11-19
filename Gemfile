@@ -13,7 +13,7 @@ gem "dotenv-rails", require: "dotenv/rails-now", github: "majioa/dotenv"
 
 gem "pg"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 7.0", ">= 7.0.3.1"
+gem "rails", "~> 7.0", ">= 7.0.4"
 # Use Puma as the app server
 gem "puma", "~> 5.6"
 # Use SCSS for stylesheets
