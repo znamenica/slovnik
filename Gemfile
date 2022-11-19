@@ -65,7 +65,7 @@ gem "has_scope", ">= 0.7.2"
 # caching
 gem "jsonize", "~> 0.1.1"
 # gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
-gem "redisize", "~> 0.1.3"
+gem "redisize", "~> 0.1.4"
 # gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
 
 group :development, :test do
