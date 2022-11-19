@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.1.2"
 
 # ruby setup
-gem 'bundler', '~> 2.3.25'
+gem "bundler", "~> 2.3.25"
 
 ## Environment
 gem "dotenv-rails", require: "dotenv/rails-now", github: "majioa/dotenv"
@@ -109,7 +109,7 @@ group :development do
    gem "capistrano-rails", "~> 1.6", require: false
    gem "capistrano-rvm", require: false
    gem "capistrano-systemd-multiservice", require: false, git: "https://github.com/majioa/capistrano-systemd-multiservice.git"
-   gem "capistrano-db-tasks", require: false, github: 'majioa/capistrano-db-tasks', ref: 'devel'
+   gem "capistrano-db-tasks", require: false, github: "majioa/capistrano-db-tasks", ref: "devel"
    gem "ed25519", "~> 1.2"
    gem "spring"
    gem "spring-watcher-listen", "~> 2.0.0"

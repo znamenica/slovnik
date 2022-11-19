@@ -67,10 +67,10 @@ set :assets_dir, %w(public/assets public/att)
 set :local_assets_dir, %w(public/assets public/att)
 
 # if you want to work on a specific local environment (default = ENV['RAILS_ENV'] || 'development')
-set :locals_rails_env, ENV['RAILS_ENV'] || "production"
+set :locals_rails_env, ENV["RAILS_ENV"] || "production"
 
 # if you are highly paranoid and want to prevent any push operation to the server
-set :disallow_pushing, true
+set :disallow_pushing, false
 
 # if you prefer bzip2/unbzip2 instead of gzip
 set :compressor, :bzip2

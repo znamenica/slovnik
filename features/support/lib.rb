@@ -21,12 +21,8 @@ module Spec
    def deep_match obj, to_obj
       case to_obj
       when Array
-         raise if obj.class != to_obj.class
-
          array_match(obj, to_obj)
       when Hash
-         raise if obj.class != to_obj.class
-
          hash_match(obj, to_obj)
       when String
          raise if obj.to_s != to_obj
@@ -41,12 +37,16 @@ module Spec
    end
 
    def array_match array, to_array
+      raise if array.class != to_array.class
+
       to_array.map.with_index do |to_val, index|
          deep_match(array[index], to_val)
       end.any?
    end
 
    def hash_match hash, to_hash
+      raise if hash.class != to_hash.class
+
       to_hash.map do |(to_key, to_val)|
          deep_match(hash[to_key], to_val)
       end.any?

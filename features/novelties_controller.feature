@@ -179,6 +179,14 @@
          | id           | 200003    |
          | kind         | librum    |
          | title        | tag3      |
+      Допустим є мѣта сѫ даными:
+         | id           | 200004    |
+         | kind         | librum    |
+         | title        | tag4      |
+      Допустим є мѣта сѫ даными:
+         | id           | 200005    |
+         | kind         | librum    |
+         | title        | tag5      |
       И є новина сѫ даными:
          | id        | 100002             |
          | title     | Текст 2            |
@@ -189,7 +197,17 @@
          | title     | Текст 3            |
          | text      | Текстовая строка 3 |
          | tags      | [tag3]             |
-      Если запытам добыванје из изнаходи "/news.json?by_tags[]=tag1,tag2&by_tags[]=tag3"
+      И є новина сѫ даными:
+         | id        | 100004             |
+         | title     | Текст 4            |
+         | text      | Текстовая строка 4 |
+         | tags      | [tag1,tag4]        |
+      И є новина сѫ даными:
+         | id        | 100005             |
+         | title     | Текст 5            |
+         | text      | Текстовая строка 5 |
+         | tags      | [tag5]             |
+      Если запытам добыванје из изнаходи "/news.json?by_tags[]=tag1,tag2&by_tags[]=tag3&by_tags[]=tag5&by_tags[]=tag6"
       То добѫдѫ вывод:
          """
          ---
@@ -202,9 +220,13 @@
             title: Текст 3
             text: Текстовая строка 3
             tag_ids: [200003]
+          - id: 100005
+            title: Текст 5
+            text: Текстовая строка 5
+            tag_ids: [200005]
          page: 1
          per: 25
-         total: 2
+         total: 3
          """
 
    @json @index @tags @negation
