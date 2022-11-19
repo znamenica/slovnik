@@ -165,7 +165,7 @@ end
    expect(@response).to match_response_json_yaml(doc_string)
 rescue => e
    Kernel.puts @response.body.inspect
-   binding.pry
+   # binding.pry
    raise e
 end
 

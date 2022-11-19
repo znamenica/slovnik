@@ -42,16 +42,16 @@ RSpec::Matchers.define :have_content_in_text_and_inputs do |text|
 end
 
 Before do
+   DatabaseCleaner.start
+   # @redis = Redis.new(url: Rails.application.config.cache_store[1][:url])
    # for route matchers
    @routes ||= ObjectSpace.each_object(ActionDispatch::Routing::RouteSet).to_a.find { |r| r.routes.count > 0 }
    # for minitest
    self.assertions ||= 0
-
-   Redis.current.flushall
-   DatabaseCleaner.start
 end
 
 After do
+   # @redis.flushall
    DatabaseCleaner.clean
 end
 

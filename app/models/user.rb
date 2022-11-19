@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-   rolify
    devise :database_authenticatable, :registerable, :confirmable,
       :recoverable, :rememberable, :validatable, :trackable, :omniauthable
+
+   rolify
 
    has_many :tokens
    has_many :access_tokens, -> { where(kind: :access) }, class_name: :Token

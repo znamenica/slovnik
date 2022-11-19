@@ -105,23 +105,30 @@ Rails.application.configure do
    #   compress: Snappy
    # }
 
-   config.cache_store = :redis_cache_store, {
-     url: File.join(ENV.fetch("REDIS_URL", nil), "0/cache"),
-     error_handler: -> (method:, returning:, exception:) {
-        # reports to Sentry
-        Sentry.capture_exception exception, level: "warning", tags: { method:, returning: }
-     },
-     expires_in: 1.day,
-     key: "_#{Rails.application.class.name.split("::").first.downcase}_cache",
+   config.cache_store = :memory_store, { size: 16.megabytes }
+
+   config.session_store = :cookie_store, {
+      key: "_#{Rails.application.class.name.split("::").first.downcase}_session",
+      domain: "127.0.0.1"
    }
 
-   config.session_store = :redis_session_store, {
-     key: "_#{Rails.application.class.name.split("::").first.downcase}_session",
-     redis: {
-       expire_after: 120.minutes,  # cookie expiration
-       ttl: 120.minutes,           # Redis expiration, defaults to 'expire_after'
-       key_prefix: "allslavic:session:",
-       url: File.join(ENV.fetch("REDIS_URL", nil), "1/session")
-     }
-   }
+   #   config.cache_store = :redis_cache_store, {
+   #      url: File.join(ENV.fetch("REDIS_URL", nil), "0"),
+   #      driver: :hiredis,
+   #      error_handler: -> (method:, returning:, exception:) {
+   #          # reports to Sentry
+   #          Sentry.capture_exception exception, level: "warning", tags: { method:, returning: }
+   #      },
+   #      expires_in: 1.day,
+   #   }
+   #
+   #   config.session_store = :redis_session_store, {
+   #      redis: {
+   #         driver: :hiredis,
+   #         expire_after: 120.minutes,  # cookie expiration
+   #         ttl: 120.minutes,           # Redis expiration, defaults to 'expire_after'
+   #         key_prefix: "allslavic:session:",
+   #         url: File.join(ENV.fetch("REDIS_URL", nil), "1/session")
+   #      }
+   #   }
 end

@@ -47,21 +47,17 @@ Rails.application.configure do
    # config.action_view.raise_on_missing_translations = true
    config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
-   config.cache_store = :redis_cache_store, {
-     url: File.join(ENV.fetch("REDIS_URL", nil), "0/cache"),
-     expires_in: 1.day,
-     key: "_#{Rails.application.class.name.split("::").first.downcase}_cache",
+   config.cache_store = :memory_store, { size: 16.megabytes }
+
+   #   config.cache_store = :redis_cache_store, {
+   #      url: File.join(ENV.fetch("REDIS_URL", nil), "0"),
+   #      expires_in: 1.day,
+   #   }
+
+   config.session_store = :cookie_store, {
+      key: "_#{Rails.application.class.name.split("::").first.downcase}_session",
+      domain: "127.0.0.1"
    }
 
-   config.session_store = :redis_session_store, {
-     key: "_#{Rails.application.class.name.split("::").first.downcase}_session",
-     redis: {
-       expire_after: 120.minutes,  # cookie expiration
-       ttl: 120.minutes,           # Redis expiration, defaults to 'expire_after'
-       key_prefix: "allslavic:session:",
-       url: File.join(ENV.fetch("REDIS_URL", nil), "1/session")
-     }
-   }
-
-   config.active_job.queue_adapter = :sidekiq
+   config.active_job.queue_adapter = :test
 end

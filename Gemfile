@@ -64,7 +64,8 @@ gem "has_scope", ">= 0.7.2"
 
 # caching
 gem "jsonize", "~> 0.1.1"
-gem "redisize", "~> 0.1.2"
+# gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
+gem "redisize", "~> 0.1.3"
 # gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
 
 group :development, :test do
@@ -130,12 +131,11 @@ group :production, :development do
    # caching
    ## Use Redis adapter to run Action Cable in production
    ## cache, session, rack / json, with usage delayed_jobs
-   gem "hiredis", "~> 0.6"
-   gem "redis", "~> 4.0", require: %w(redis redis/connection/hiredis)
-   gem "redis-namespace"
-   gem "redis-rails", "~> 5.0"
-   gem "redis-rails-instrumentation"
-   # gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
+   # gem "hiredis-client"
+   # gem "redis", "~> 5.0"
+   # gem "redis-namespace"
+   # gem "redis-rails", "~> 5.0"
+   # gem "redis-rails-instrumentation"
    gem "sidekiq", ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
    gem "sidekiq-limit_fetch"
    gem "sidekiq-worker-killer"

@@ -2,6 +2,8 @@
 
 class Librum < ApplicationRecord
    include TagIds
+
+   resourcify
    # belongs_to :tags
 
    belongs_to :author, class_name: "User"
