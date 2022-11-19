@@ -103,12 +103,13 @@ group :development do
    gem "web-console", ">= 3.3.0"
    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
    gem "bcrypt_pbkdf", "~> 1.0"
-   gem "capistrano", "~> 3.17"
-   gem "capistrano3-nginx", git: "https://github.com/treenewbee/capistrano3-nginx.git"
-   gem "capistrano-bundler"
-   gem "capistrano-rails", "~> 1.6"
-   gem "capistrano-rvm"
+   gem "capistrano", "~> 3.17", require: false
+   gem "capistrano3-nginx", require: false, git: "https://github.com/treenewbee/capistrano3-nginx.git"
+   gem "capistrano-bundler", require: false
+   gem "capistrano-rails", "~> 1.6", require: false
+   gem "capistrano-rvm", require: false
    gem "capistrano-systemd-multiservice", require: false, git: "https://github.com/majioa/capistrano-systemd-multiservice.git"
+   gem "capistrano-db-tasks", require: false, github: 'majioa/capistrano-db-tasks', ref: 'devel'
    gem "ed25519", "~> 1.2"
    gem "spring"
    gem "spring-watcher-listen", "~> 2.0.0"

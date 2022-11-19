@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/majioa/capistrano-db-tasks.git
+  revision: f42a8d3d704aa0c4eb5c4e01091cef21bfadf978
+  ref: devel
+  specs:
+    capistrano-db-tasks (0.6)
+      capistrano (>= 3.0.0)
+
+GIT
   remote: https://github.com/majioa/capistrano-systemd-multiservice.git
   revision: c5ab445320d0c725186ec75b778c3140694a3e15
   specs:
@@ -511,6 +519,7 @@ DEPENDENCIES
   bundler (~> 2.3.25)
   capistrano (~> 3.17)
   capistrano-bundler
+  capistrano-db-tasks!
   capistrano-rails (~> 1.6)
   capistrano-rvm
   capistrano-systemd-multiservice!
