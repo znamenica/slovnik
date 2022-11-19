@@ -56,4 +56,3 @@ After do
 end
 
 DatabaseCleaner[:active_record].strategy = :transaction
-DatabaseCleaner[:redis].strategy = :deletion

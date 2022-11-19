@@ -190,9 +190,6 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    database_cleaner-redis (2.0.0)
-      database_cleaner-core (~> 2.0.0)
-      redis
     database_rewinder (0.9.8)
     devise (4.8.1)
       bcrypt (~> 3.0)
@@ -209,6 +206,8 @@ GEM
       activesupport (>= 5.0.0)
     faker (2.21.0)
       i18n (>= 1.8.11, < 2)
+    fakeredis (0.8.0)
+      redis (~> 4.1)
     ffaker (2.21.0)
     ffi (1.15.5)
     get_process_mem (0.2.7)
@@ -528,13 +527,13 @@ DEPENDENCIES
   chromedriver-helper
   cucumber-rails
   database_cleaner-active_record
-  database_cleaner-redis
   database_rewinder
   devise
   dotenv-rails!
   ed25519 (~> 1.2)
   factory_bot
   faker
+  fakeredis
   ffaker
   has_scope (>= 0.7.2)
   hiredis (~> 0.6)

@@ -55,28 +55,17 @@ gem "net-smtp"
 # pagination
 gem "kaminari", ">= 1.1.1"
 
-# caching
-## Use Redis adapter to run Action Cable in production
-## cache, session, rack / json, with usage delayed_jobs
-gem "hiredis", "~> 0.6"
-gem "jsonize", "~> 0.1.1"
-gem "redis", "~> 4.0", require: %w(redis redis/connection/hiredis)
-gem "redis-namespace"
-gem "redis-rails", "~> 5.0"
-gem "redis-rails-instrumentation"
-# gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
-gem "redisize", "~> 0.1.2"
-# gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
-gem "sidekiq", ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
-gem "sidekiq-limit_fetch"
-gem "sidekiq-worker-killer"
-
 ## authorization
 gem "pundit"
 gem "rolify"
 
 ## controllers
 gem "has_scope", ">= 0.7.2"
+
+# caching
+gem "jsonize", "~> 0.1.1"
+gem "redisize", "~> 0.1.2"
+# gem 'redisize', path: '/usr/local/home/majioa/git/redisize'
 
 group :development, :test do
    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -125,7 +114,7 @@ group :test do
    # Easy installation and use of chromedriver to run system tests with Chrome
    gem "chromedriver-helper"
    gem "database_cleaner-active_record"
-   gem "database_cleaner-redis"
+   gem "fakeredis"
 end
 
 group :production do
@@ -135,4 +124,19 @@ group :production do
    gem "sentry-sidekiq"
    # gem 'redis-rack-cache'
    # gem "snappy"
+end
+
+group :production, :development do
+   # caching
+   ## Use Redis adapter to run Action Cable in production
+   ## cache, session, rack / json, with usage delayed_jobs
+   gem "hiredis", "~> 0.6"
+   gem "redis", "~> 4.0", require: %w(redis redis/connection/hiredis)
+   gem "redis-namespace"
+   gem "redis-rails", "~> 5.0"
+   gem "redis-rails-instrumentation"
+   # gem 'jsonize', path: '/usr/local/home/majioa/git/jsonize'
+   gem "sidekiq", ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
+   gem "sidekiq-limit_fetch"
+   gem "sidekiq-worker-killer"
 end
