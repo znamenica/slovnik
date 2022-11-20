@@ -131,12 +131,11 @@ group :production, :development do
    # caching
    ## Use Redis adapter to run Action Cable in production
    ## cache, session, rack / json, with usage delayed_jobs
-   # gem "hiredis-client"
-   # gem "redis", "~> 5.0"
-   # gem "redis-namespace"
-   # gem "redis-rails", "~> 5.0"
+   gem "hiredis-client"
+   gem "redis", "~> 5.0"
    # gem "redis-rails-instrumentation"
    gem "sidekiq", ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
    gem "sidekiq-limit_fetch"
    gem "sidekiq-worker-killer"
+   gem "pry-remote"
 end

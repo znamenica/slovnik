@@ -98,6 +98,29 @@ Rails.application.configure do
 
    config.active_job.queue_adapter = :sidekiq
 
+   redis_uri = ENV.fetch("REDIS_URL", nil)
+
+   if redis_uri
+      config.cache_store = :redis_cache_store, {
+         url: File.join(redis_uri, "0"),
+         driver: :hiredis,
+         error_handler: -> (method:, returning:, exception:) {
+            # reports to Sentry
+            Sentry.capture_exception exception, level: "warning", tags: { method:, returning: }
+         },
+         expires_in: 1.day,
+      }
+
+      config.session_store = :redis_session_store, {
+         redis: {
+            driver: :hiredis,
+            expire_after: 120.minutes,  # cookie expiration
+            ttl: 120.minutes,           # Redis expiration, defaults to 'expire_after'
+            key_prefix: "allslavic:session:",
+            url: File.join(redis_uri, "1")
+         }
+      }
+
    # config.action_dispatch.rack_cache = {
    #   expire_after: 1.day,
    #   metastore: "redis://localhost:6379/2/metastore",
@@ -105,30 +128,12 @@ Rails.application.configure do
    #   compress: Snappy
    # }
 
-   config.cache_store = :memory_store, { size: 16.megabytes }
+   else
+      config.cache_store = :memory_store, { size: 16.megabytes }
 
-   config.session_store = :cookie_store, {
-      key: "_#{Rails.application.class.name.split("::").first.downcase}_session",
-      domain: "127.0.0.1"
-   }
-
-   #   config.cache_store = :redis_cache_store, {
-   #      url: File.join(ENV.fetch("REDIS_URL", nil), "0"),
-   #      driver: :hiredis,
-   #      error_handler: -> (method:, returning:, exception:) {
-   #          # reports to Sentry
-   #          Sentry.capture_exception exception, level: "warning", tags: { method:, returning: }
-   #      },
-   #      expires_in: 1.day,
-   #   }
-   #
-   #   config.session_store = :redis_session_store, {
-   #      redis: {
-   #         driver: :hiredis,
-   #         expire_after: 120.minutes,  # cookie expiration
-   #         ttl: 120.minutes,           # Redis expiration, defaults to 'expire_after'
-   #         key_prefix: "allslavic:session:",
-   #         url: File.join(ENV.fetch("REDIS_URL", nil), "1/session")
-   #      }
-   #   }
+      config.session_store = :cookie_store, {
+         key: "_#{Rails.application.class.name.split("::").first.downcase}_session",
+         domain: "127.0.0.1"
+      }
+   end
 end

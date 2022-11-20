@@ -217,6 +217,8 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
     hashie (5.0.0)
+    hiredis-client (0.11.2)
+      redis-client (= 0.11.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
@@ -298,6 +300,9 @@ GEM
     pry-byebug (3.9.0)
       byebug (~> 11.0)
       pry (~> 0.13.0)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
     public_suffix (4.0.7)
     puma (5.6.4)
       nio4r (~> 2.0)
@@ -433,6 +438,7 @@ GEM
     sidekiq-worker-killer (1.0.1)
       get_process_mem (~> 0.2.1)
       sidekiq (>= 5)
+    slop (3.6.0)
     spring (2.1.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -509,6 +515,7 @@ DEPENDENCIES
   fakeredis
   ffaker
   has_scope (>= 0.7.2)
+  hiredis-client
   jsonize (~> 0.1.1)
   kaminari (>= 1.1.1)
   listen (>= 3.0.5, < 3.2)
@@ -519,10 +526,12 @@ DEPENDENCIES
   omniauth
   pg
   pry-byebug
+  pry-remote
   puma (~> 5.6)
   pundit
   rack-cors
   rails (~> 7.0, >= 7.0.4)
+  redis (~> 5.0)
   redisize (~> 0.1.4)
   rolify
   rubocop

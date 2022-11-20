@@ -43,7 +43,7 @@ end
 
 Before do
    DatabaseCleaner.start
-   # @redis = Redis.new(url: Rails.application.config.cache_store[1][:url])
+   @redis = Redis.new(url: Rails.application.config.cache_store[1][:url])
    # for route matchers
    @routes ||= ObjectSpace.each_object(ActionDispatch::Routing::RouteSet).to_a.find { |r| r.routes.count > 0 }
    # for minitest
@@ -51,7 +51,7 @@ Before do
 end
 
 After do
-   # @redis.flushall
+   @redis.flushall
    DatabaseCleaner.clean
 end
 
