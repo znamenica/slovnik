@@ -18,37 +18,57 @@ module Spec
       JSON.load(@response.body)
    end
 
-   def deep_match obj, to_obj
+   # matcher
+   class InvalidObjectMatchError < StandardError; end
+
+   def error object, path = [], exception: true
+      text = "Invalid object match #{object} at path #{path.join('.')}"
+
+      if exception
+         Kernel.puts(text)
+         raise InvalidObjectMatchError.new(text)
+      end
+
+      false
+   end
+
+   def deep_match obj, to_obj, path = [], exception: true
       case to_obj
       when Array
-         array_match(obj, to_obj)
+         array_match(obj, to_obj, path, exception:)
       when Hash
-         hash_match(obj, to_obj)
+         hash_match(obj, to_obj, path, exception:)
       when String
-         raise if obj.to_s != to_obj
+         return error(to_obj, path, exception:) if obj.to_s != to_obj
       when Integer
-         raise if obj.to_i != to_obj
+         return error(to_obj, path, exception:) if obj.to_i != to_obj
       else
-         raise if obj.class != to_obj.class
-         raise if obj != to_obj
+         return error(to_obj, path, exception:) if obj.class != to_obj.class || obj != to_obj
       end
 
       true
    end
 
-   def array_match array, to_array
-      raise if array.class != to_array.class
+   def array_match array_in, to_array, path, exception: true
+      array = array_in.dup
+
+      error(to_array, path, exception:) if array.class != to_array.class
 
       to_array.map.with_index do |to_val, index|
-         deep_match(array[index], to_val)
+         idx =
+            array.index do |val|
+               deep_match(val, to_val, path | [index], exception: false)
+            end
+
+         idx ? array.delete_at(idx) : error(to_val, path | [index], exception:)
       end.any?
    end
 
-   def hash_match hash, to_hash
-      raise if hash.class != to_hash.class
+   def hash_match hash, to_hash, path, exception: true
+      error(to_hash, path, exception:) if hash.class != to_hash.class
 
       to_hash.map do |(to_key, to_val)|
-         deep_match(hash[to_key], to_val)
+         deep_match(hash[to_key], to_val, path | [to_key], exception:)
       end.any?
    end
 end
