@@ -35,7 +35,7 @@ set :default_env, { path: "#{release_path}/node_modules/yarn/bin:#{release_path}
 
 set :nginx_roles, :web
 set :nginx_static_dir, "public"
-set :nginx_template, "#{stage_config_path}/#{fetch :stage}/nginx.conf.erb"
+set :nginx_template, "#{stage_config_path}/nginx.conf.erb"
 
 set :rvm_type, :user                      # Defaults to: :auto
 set :rvm_ruby_version, "3.1.2@allslavic --create"    # Defaults to: 'default'
@@ -69,14 +69,10 @@ set :local_assets_dir, %w(public/assets public/att)
 # if you want to work on a specific local environment (default = ENV['RAILS_ENV'] || 'development')
 set :locals_rails_env, ENV["RAILS_ENV"] || "production"
 
-# if you are highly paranoid and want to prevent any push operation to the server
-set :disallow_pushing, false
-
 # if you prefer bzip2/unbzip2 instead of gzip
 set :compressor, :bzip2
 
 ### tasks
-
 task :setup do
    after "setup", "systemd:core:setup"
    after "setup", "nginx:site:add"
@@ -84,9 +80,11 @@ task :setup do
 end
 
 # deploy
+before "deploy:migrate", "db:remote:createdb"
 after "deploy:publishing", "systemd:sidekiq:enable"
 after "deploy:publishing", "systemd:core:enable"
 after "deploy:finishing", "deploy:cleanup"
+before "deploy:finishing", "deploy:restart"
 
 # deploy:restart
 before "nginx:reload", "nginx:create_log_paths"

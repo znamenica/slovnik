@@ -15,7 +15,7 @@ def root
    File.expand_path("../..", __FILE__)
 end
 
-if Rails.env.production?
+if Rails.env.production? || Rails.env.staging?
    app_dir = File.expand_path("../..", __FILE__)
    shared_dir = File.expand_path("#{app_dir}/../../shared")
    threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
@@ -58,7 +58,7 @@ on_worker_boot do
    # Worker specific setup for Rails 4.1+
    # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
    ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
-   if Rails.env.production?
+   if Rails.env.production? || Rails.env.staging?
       ActiveRecord::Base.establish_connection(YAML.load_file("#{shared_dir}/config/database.yml")[rails_env])
    end
 end

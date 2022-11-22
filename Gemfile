@@ -100,6 +100,7 @@ group :development do
    gem "capistrano-rvm", require: false
    gem "capistrano-systemd-multiservice", require: false, git: "https://github.com/majioa/capistrano-systemd-multiservice.git"
    gem "capistrano-db-tasks", require: false, github: "majioa/capistrano-db-tasks", ref: "devel"
+   # gem "capistrano-db-tasks", require: false, path: '/usr/local/home/majioa/git/capistrano-db-tasks'
    gem "ed25519", "~> 1.2"
    gem "spring"
    gem "spring-watcher-listen", "~> 2.0.0"
@@ -118,7 +119,7 @@ group :test do
    gem "fakeredis"
 end
 
-group :production do
+group :production, :staging do
    gem "rack-cors", require: "rack/cors"
    gem "sentry-rails"
    gem "sentry-ruby"
@@ -127,7 +128,7 @@ group :production do
    # gem "snappy"
 end
 
-group :production, :development do
+group :production, :development, :staging do
    # caching
    ## Use Redis adapter to run Action Cable in production
    ## cache, session, rack / json, with usage delayed_jobs

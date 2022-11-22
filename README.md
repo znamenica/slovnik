@@ -15,22 +15,34 @@ application up and running.
 
 These requirements are for the ALT linux server:
 
- 1. libhiredis-devel
- 2. libsnappy-devel
- 3. redis
- 4. xclip
- 5. sidekiq
- 6. postgresql14-server-devel
- 7. postgresql14-server
+1. libhiredis-devel
+2. libsnappy-devel
+3. redis
+4. xclip
+5. sidekiq
+6. postgresql14-server-devel
+7. postgresql14-server
 
 ## Setup
 
-    $ cap production setup
+```bash
+$ cap production setup
+```
+
+### Restart server
+
+```bash
+$ cap production deploy:restart
+```
 
 ### Deploy
 
-    $ cap production deploy
+```bash
+$ cap production deploy
+```
 
-#### Restart server
+### Deploy with a server restart
 
-    $ cap production deploy:restart
+```bash
+$ cap production deploy deploy:restart
+```

@@ -10,4 +10,4 @@ Sentry.init do |config|
    config.traces_sampler = lambda do |context|
       0.5
    end
-end if Rails.env.production?
+end if Rails.env.production? || Rails.env.staging?

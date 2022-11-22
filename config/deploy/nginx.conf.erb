@@ -4,9 +4,9 @@ upstream allslavic_app {
 
 # https://docs.nginx.com/nginx/admin-guide/security-controls/terminating-ssl-http/
 server {
-   listen 80;
+   listen <%= fetch(:nginx_http_port) %>;
    <% if fetch(:nginx_use_ssl) %>
-   listen 443 ssl;
+   listen <%= fetch(:nginx_https_port) %> ssl;
    <% end %>
 
    root <%= current_path %>/public;
@@ -16,12 +16,14 @@ server {
    keepalive_timeout <%= fetch(:nginx_read_timeout) %>;
    client_max_body_size 4G;
 
-   # ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-   # ssl_protocols TLSv1.2;
-   # ssl_ciphers HIGH:!aNULL:!MD5:!3DES;
-   # ssl_certificate_key  <%= File.join(fetch(:nginx_ssl_certificate_key_path), fetch(:nginx_ssl_certificate_key)) %>;
-   # ssl_certificate      <%= File.join(fetch(:nginx_ssl_certificate_path), fetch(:nginx_ssl_certificate)) %>;
-   # add_header Strict-Transport-Security 'max-age=604800';   
+   <% if fetch(:nginx_use_ssl) %>
+   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+   ssl_protocols TLSv1.2;
+   ssl_ciphers HIGH:!aNULL:!MD5:!3DES;
+   ssl_certificate_key  <%= File.join(fetch(:nginx_ssl_certificate_key_path), fetch(:nginx_ssl_certificate_key)) %>;
+   ssl_certificate      <%= File.join(fetch(:nginx_ssl_certificate_path), fetch(:nginx_ssl_certificate)) %>;
+   add_header Strict-Transport-Security 'max-age=604800';   
+   <% end %>
 
    try_files $uri/index.html $uri @allslavic_app;
 

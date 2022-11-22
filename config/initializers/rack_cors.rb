@@ -7,4 +7,4 @@ Rails.application.configure do
          resource "*", headers: :any, methods: %i(get post put patch delete options)
       end
    end
-end if Rails.env.production?
+end if Rails.env.production? || Rails.env.staging?
