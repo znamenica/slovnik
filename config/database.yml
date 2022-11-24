@@ -14,6 +14,10 @@ test: &test
   <<: *default
   database: allslavic_test
 
+staging:
+  <<: *default
+  database: allslavic_staging
+
 production:
   <<: *default
   database: allslavic_production

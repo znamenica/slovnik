@@ -15,7 +15,7 @@ gem "pg"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 7.0", ">= 7.0.4"
 # Use Puma as the app server
-gem "puma", "~> 5.6"
+gem "puma", "~> 4.0"
 # Use SCSS for stylesheets
 gem "sprockets-rails"
 
@@ -124,17 +124,18 @@ group :production, :staging do
    gem "sentry-rails"
    gem "sentry-ruby"
    gem "sentry-sidekiq"
-   # gem 'redis-rack-cache'
-   # gem "snappy"
+   gem 'redis-rack-cache'
+   gem "snappy"
 end
 
 group :production, :development, :staging do
    # caching
    ## Use Redis adapter to run Action Cable in production
    ## cache, session, rack / json, with usage delayed_jobs
-   gem "hiredis-client"
-   gem "redis", "~> 5.0"
-   # gem "redis-rails-instrumentation"
+   gem 'hiredis', '~> 0.6'
+   gem "redis", "~> 4.6", require: %w(redis redis/connection/hiredis)
+   gem 'redis-rails', '~> 5.0'
+   gem 'redis-namespace'
    gem "sidekiq", ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
    gem "sidekiq-limit_fetch"
    gem "sidekiq-worker-killer"

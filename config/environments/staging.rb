@@ -66,6 +66,7 @@ Rails.application.configure do
    # config.active_job.queue_name_prefix = "allslavic_#{Rails.env}"
 
    config.action_mailer.perform_caching = true
+   config.active_record.cache_versioning = false
 
    # Ignore bad email addresses and do not raise email delivery errors.
    # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -99,40 +100,50 @@ Rails.application.configure do
    config.active_job.queue_adapter = :sidekiq
 
    redis_uri = ENV.fetch("REDIS_URL", nil)
+   name = Rails.application.class.name.split("::").first.downcase
 
    if redis_uri
-      config.cache_store = :redis_cache_store, {
-         url: File.join(redis_uri, "0"),
-         driver: :hiredis,
+      config.action_dispatch.rack_cache = {
+         expire_after: 1.hour,
+         metastore: File.join(redis_uri, "1", "metastore"),
+         entitystore: File.join(redis_uri, "1", "entitystore"),
          error_handler: -> (method:, returning:, exception:) {
             # reports to Sentry
             Sentry.capture_exception exception, level: "warning", tags: { method:, returning: }
          },
+         compress: Snappy
+      }
+
+      config.cache_store = :redis_store, {
+         host: "localhost",
+         port: 6379,
+         db: 0,
+         namespace: "cache"
+      }, {
          expires_in: 1.day,
+         key: "_#{name}_cache",
+         error_handler: -> (method:, returning:, exception:) {
+            # reports to Sentry
+            Sentry.capture_exception exception, level: "warning", tags: { method:, returning: }
+         },
       }
 
-      config.session_store = :redis_session_store, {
-         redis: {
-            driver: :hiredis,
-            expire_after: 120.minutes,  # cookie expiration
-            ttl: 120.minutes,           # Redis expiration, defaults to 'expire_after'
-            key_prefix: "allslavic:session:",
-            url: File.join(redis_uri, "1")
-         }
-      }
-
-   # config.action_dispatch.rack_cache = {
-   #   expire_after: 1.day,
-   #   metastore: "redis://localhost:6379/2/metastore",
-   #   entitystore: "redis://localhost:6379/2/entitystore",
-   #   compress: Snappy
-   # }
+      config.session_store :redis_store,
+         servers: [File.join(redis_uri, "1", "session")],
+         expire_after: 1.day,
+         key: "_#{name}_session",
+         error_handler: -> (method:, returning:, exception:) {
+            # reports to Sentry
+            Sentry.capture_exception exception, level: "warning", tags: { method:, returning: }
+         },
+         threadsafe: true,
+         secure: true
 
    else
       config.cache_store = :memory_store, { size: 16.megabytes }
 
       config.session_store = :cookie_store, {
-         key: "_#{Rails.application.class.name.split("::").first.downcase}_session",
+         key: "_#{name}_session",
          domain: "127.0.0.1"
       }
    end

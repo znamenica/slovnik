@@ -21,7 +21,9 @@ if defined?(Sidekiq)
       end
 
       Sidekiq.configure_client do |config|
-         config.redis = { url: "#{ENV.fetch("REDIS_URL", nil)}/4", namespace: "caching" }
+         config.redis = {
+            url: "#{redis_uri}/4", namespace: "caching",
+         }
       end
    end
 end
