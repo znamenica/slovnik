@@ -78,12 +78,12 @@ group :development, :test do
    gem "brakeman"
    gem "rubocop", require: false
    gem "rubocop-checkstyle_formatter", require: false
-   gem "rubocop-faker"
+   gem "rubocop-faker", require: false
    gem "rubocop-i18n", require: false
-   gem "rubocop-md"
+   gem "rubocop-md", require: false
    gem "rubocop-performance", require: false
    gem "rubocop-rails", require: false
-   gem "rubocop-rails_config"
+   gem "rubocop-rails_config", require: false
    gem "rubocop-rake", require: false
 end
 
@@ -117,6 +117,7 @@ group :test do
    gem "chromedriver-helper"
    gem "database_cleaner-active_record"
    gem "fakeredis"
+   gem "code-scanning-rubocop"
 end
 
 group :production, :staging do

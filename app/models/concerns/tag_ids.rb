@@ -6,7 +6,7 @@ module TagIds
    included do
       scope :by_tags, -> (tag_names_in) do
          tag_names_in.reduce(self.where("FALSE")) do |q, tag_names|
-            pos_names = tag_names.split(",").select { |x| x !~ /^!/ }
+            pos_names = tag_names.split(",").grep_v(/^!/)
             neg_names = tag_names.split(",").filter_map { |x| x.match(/^!(?<name>.*)/)&.[](:name) }
             pos_tag_ids = Tag.by_name(pos_names).select("array_agg(tags.id)")
             neg_tag_ids = Tag.by_name(neg_names).select("array_agg(tags.id)")
