@@ -136,7 +136,7 @@ group :production, :development, :staging do
    gem "hiredis-client"
    gem "redis", "~> 5.0"
    # gem "redis-rails-instrumentation"
-   gem "sidekiq", ">= 6.4.0", "< 6.5.0", require: %w(sidekiq sidekiq/web)
+   gem "sidekiq", ">= 6.4.0", "< 7.1.0", require: %w(sidekiq sidekiq/web)
    gem "sidekiq-limit_fetch"
    gem "sidekiq-worker-killer"
    gem "pry-remote"
